@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
 import sys
-import os
-import io
 import time
 import hashlib
 import argparse
+import struct
 
 from MFT import MFTEnumerator
 from MFT import InvalidRecordException
@@ -33,6 +32,13 @@ def parseMFTForFiles(mftpath):
 
     return file_records
 
+def parseMBRforVBRLocation(mbr):
+    #grab the first partition entry, and return the starting sector
+    return struct.unpack("<I", mbr[454:458])[0]
+
+def parseVBRforSectorsPerCluster(vbr):
+    return struct.unpack("B", vbr[13:14])[0]
+
 def main():
     #checking input parameters
     if len(sys.argv) < 3:
@@ -52,9 +58,8 @@ def main():
     parser.add_argument('mft_path', action="store", help="Source MFT path")
     arg_results = parser.parse_args()
 
-    #Reading MFT
-    #with open(mftpath, "rb") as mft:
-        #reading MFT for processing
+
+    #reading MFT for processing
     fileMFTRecords = parseMFTForFiles(arg_results.mft_path)
 
     #Disk imaging functionality
@@ -64,15 +69,41 @@ def main():
         md5hash = hashlib.md5()
         #starting timer
         start = time.time()
+
+        blocknum = 0
         with open(arg_results.source, "rb") as source:
             #trying to read 512 byte blocks
             print ("Source file {} open for reading".format(sourcepath))
+            #first block is MBR. Parse it.
             block = source.read(512)
+            blocknum += 1
+            vbr_sector = parseMBRforVBRLocation(block)
             md5hash.update(block)
+            dest.write(block)
+
+            #Now reading/writing padding sectors until VBR
+            block = source.read(vbr_sector * 512 - 512)
+            md5hash.update(block)
+            dest.write(block)
+
+            #We should now be at the VBR. We should now be reading the VBR ($Boot)
+            block = source.read(512)
+            sectors_per_cluster = parseVBRforSectorsPerCluster(block)
+            bytes_per_cluster = sectors_per_cluster * 512
+            md5hash.update (block)
+            dest.write(block)
+
+            #we now have to read the rest of the $boot file
+            block = source.read(bytes_per_cluster - 512)
+            md5hash.update(block)
+            dest.write(block)
+
+            #we read the rest of the drive by cluster sizes
             while block:
-                dest.write(block)
-                block = source.read(512)
+                block = source.read(bytes_per_cluster)
                 md5hash.update(block)
+                dest.write(block)
+
         end = time.time()
         dest.close()
         source.close()
