@@ -1,19 +1,21 @@
 #!/usr/bin/python
 
-import sys
 import time
 import hashlib
 import argparse
-import struct
 
-from MFT import MFTEnumerator
-from MFT import InvalidRecordException
+from MFT import *
 
 from BinaryParser import Mmap
 from BinaryParser import OverrunBufferException
 
 def parseMFTForFiles(mftpath):
-    file_records = []
+
+    #initializing the physical cluster map
+    #the key for the cluster map will be the physical cluster
+    #the value will be a tuple [length of run, mft_record for run, and a boolean as to whether it is the last
+    #run in the runlist
+    cluster_map = {}
     with Mmap(mftpath) as mftbuffer:
         enum = MFTEnumerator(mftbuffer)
         num_records = enum.len()
@@ -21,16 +23,49 @@ def parseMFTForFiles(mftpath):
         for mft_id in range(0, num_records):
             try:
                 mft_record = enum.get_record(mft_id)
-                if not mft_record.is_directory():
-                #the record is a file
-                    file_records.append(mft_record)
+                if not mft_record.is_directory() and mft_record.is_active():
+                #the record is a file and allocated
+                #building the clustermap
+                    data_attrib = mft_record.data_attribute()
+                    #if the data is non-resident, then we care. Otherwise, the data is in the attribute
+                    if data_attrib and data_attrib.non_resident() > 0:
+                        filename_attrib = mft_record.filename_information()
+                        filename = filename_attrib.filename()
+                        runlist = mft_record.data_attribute().runlist()
+                        dataruns = runlist.runs()
+
+                        #print("Filename: {}".format(filename))
+
+                        #The code in MFT.py actually gives the runlist as volume offsets
+                        count = 1
+                        for (offset, length) in dataruns:
+                            #print("Runlist offset: {} Runlist length: {}".format(offset, length))
+                            if count != runlist._entries().__len__():
+                                cluster_map[offset] = [length, mft_record, False]
+                            else:
+                                cluster_map[offset] = [length, mft_record, True]
+
             except OverrunBufferException:
                 return
             except InvalidRecordException:
                 mft_id += 1
                 continue
 
-    return file_records
+    #now to see the contents of the cluster map
+
+    return cluster_map
+
+def printClusterMap(cluster_map):
+    for cluster in cluster_map:
+        cm_entry = cluster_map[cluster]
+        length = cm_entry[0]
+        mft_record = cm_entry[1]
+        last_cluster = cm_entry[2]
+        filename = mft_record.filename_information().filename()
+
+        print("Cluster: {}\tLength: {}\tFile: {}\tLast Cluster: {}".format(cluster, length, filename, last_cluster))
+
+
 
 def parseMBRforVBRLocation(mbr):
     #grab the first partition entry, and return the starting sector
@@ -60,7 +95,9 @@ def main():
 
 
     #reading MFT for processing
-    fileMFTRecords = parseMFTForFiles(arg_results.mft_path)
+    cluster_map = parseMFTForFiles(arg_results.mft_path)
+
+    #printClusterMap(cluster_map)
 
     #Disk imaging functionality
     with open(arg_results.destination, "wb") as dest:
