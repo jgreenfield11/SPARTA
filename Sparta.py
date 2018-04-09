@@ -78,8 +78,10 @@ def parseVBRforSectorsPerCluster(vbr):
 
 def processFile(mft_record, file_data):
     filename = mft_record.filename_information().filename()
-    md5hash = hashlib.md5()
-    md5hash.update(str(file_data))
+    #hash only the logicalf file size
+    filesize = mft_record.data_attribute().data_size()
+    md5hash = hashlib.md5(file_data[0:filesize])
+
     print("File: {}\tMD5 Hash: {}".format(filename, md5hash.hexdigest()))
     return
 
@@ -147,7 +149,7 @@ def main():
             dest.write(block)
 
             #we now have to read the rest of the $boot file
-            block = source.read(bytes_per_cluster*cluster_run_length - 512)
+            block += source.read(bytes_per_cluster*cluster_run_length - 512)
             md5hash.update(block)
             dest.write(block)
 
@@ -167,7 +169,7 @@ def main():
                 #if this cluster is assigned to a valid file
                 if clusterNum in cluster_map:
                     [cluster_run_length, mft_record, offset, last_run] = cluster_map[clusterNum]
-                    mft_record_num = mft_record.mft_record_number
+                    mft_record_num = mft_record.mft_record_number()
                     #read in the entire cluster run
                     block = source.read(bytes_per_cluster * cluster_run_length)
                     clusterNum += cluster_run_length
