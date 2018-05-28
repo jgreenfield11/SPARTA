@@ -3,8 +3,12 @@
 import time
 import hashlib
 import argparse
+import binascii
+import base64
 
 from MFT import *
+
+import case
 
 from BinaryParser import Mmap
 from BinaryParser import OverrunBufferException
@@ -15,6 +19,7 @@ def parseMFTForFiles(mftpath):
     #the key for the cluster map will be the physical cluster
     #the value will be a tuple [length of run, mft_record for run, logical offset within the file,
     # and a boolean as to whether it is the last run in the runlist
+
     cluster_map = {}
     with Mmap(mftpath) as mftbuffer:
         enum = MFTEnumerator(mftbuffer)
@@ -76,14 +81,35 @@ def parseMBRforVBRLocation(mbr):
 def parseVBRforSectorsPerCluster(vbr):
     return struct.unpack("B", vbr[13:14])[0]
 
-def processFile(mft_record, file_data):
+def processFile(mft_record, file_data, file_signatures, case_output):
     filename = mft_record.filename_information().filename()
-    #hash only the logicalf file size
+    #hash only the logical file size
     filesize = mft_record.data_attribute().data_size()
     md5hash = hashlib.md5(file_data[0:filesize])
+    fileSiganture = ""
 
-    print("File: {}\tMD5 Hash: {}".format(filename, md5hash.hexdigest()))
-    return
+    #checking signatures
+    for signature in file_signatures:
+        signature_length = len(signature[1])
+        file_bytes_to_check = file_data[0:signature_length]
+
+        #signature_as_string = base64.encode(signature[1])
+
+        if (file_bytes_to_check == signature[1]):
+            #we have a signature match
+            fileSiganture = signature[0]
+            break
+
+
+    print("File: {}\tMD5 Hash: {}\tSignature: {}".format(filename, md5hash.hexdigest(),fileSiganture))
+
+    #adding the file to the output
+    #TODO: Complete the Case Property Output
+    case_file = case_output.create_uco_object('Trace')
+    case_file_property = case_file.create_property_bundle(
+        'File',
+        fileName=filename
+    )
 
 def main():
     #checking input parameters
@@ -103,6 +129,30 @@ def main():
     parser.add_argument('destination', action="store", help="Destination File Path")
     parser.add_argument('mft_path', action="store", help="Source MFT path")
     arg_results = parser.parse_args()
+
+    #instantiating the file signatures list
+    file_signatures = []
+
+    #instantiating the output document
+    case_output = case.Document()
+
+    #building datastructure for file signatures
+    #right now, it will iterate through each signature and see if there is a match
+    #this is a very inefficient way to do it, but we'll see if there is a significant impact on performance
+    with open("signatures_GCK.txt", "r") as signatures:
+        for line in signatures:
+            currline = line.split(",")
+            fileDescription = currline[0]
+            fileSig = currline[1].replace(" ","")
+            fileExt = currline[4]
+            fileCategory = currline[5].strip('\n')
+
+            #fileSigBytes = fileSig.split(" ")
+            #trying to convert the string to a byte array
+            fileSigBytes = bytearray.fromhex(fileSig)
+
+            file_signatures.append((fileDescription,fileSigBytes,fileExt,fileCategory))
+
 
     #reading MFT for processing
     cluster_map = parseMFTForFiles(arg_results.mft_path)
@@ -156,7 +206,7 @@ def main():
 
             #if the $boot is done (unfragmented), then process it, otherwise, we'll move on to the main processing code
             if last_run:
-                processFile(mft_record,block)
+                processFile(mft_record,block, file_signatures, case_output)
             else:
                 # we add the $boot to the file map
                 files[mft_record.mft_record_number] = block
@@ -176,12 +226,12 @@ def main():
 
                     #check to see if the file has any data already read
                     if mft_record_num not in files and last_run:
-                        processFile(mft_record,block)
+                        processFile(mft_record,block, file_signatures, case_output)
                     elif mft_record_num in files and not last_run:
                         files[mft_record_num][offset:offset + cluster_run_length * bytes_per_cluster - 1] = block
                     elif mft_record_num in files and last_run:
                         files[mft_record_num] = bytearray(mft_record.filename_information().logical_size())
-                        processFile(mft_record, files[mft_record_num])
+                        processFile(mft_record, files[mft_record_num], file_signatures, case_output)
 
 
                 #otherwise, read the cluster and move on
@@ -212,6 +262,9 @@ def main():
             print("Verification successful, hashes match")
         else:
             print ("Verification unsuccessful.")
+
+        #writing the Case document output
+        case_output.serialize(format='json-ld', destination='output.json')
 
 if __name__ == "__main__":
     main()
