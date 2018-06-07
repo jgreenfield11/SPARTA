@@ -3,8 +3,6 @@
 import time
 import hashlib
 import argparse
-import binascii
-import base64
 
 from MFT import *
 
@@ -12,6 +10,85 @@ import case
 
 from BinaryParser import Mmap
 from BinaryParser import OverrunBufferException
+
+#for multi-threaded
+from Queue import Queue
+from threading import Thread
+
+#setting up a global Queues for file processing
+num_processing_threads = 2
+unprocessedFileQueue = Queue()
+processedFileQueue = Queue()
+
+# instantiating the output document
+case_output = case.Document()
+
+# instantiating the file signatures list
+file_signatures = []
+
+#This will replace the tuples stuff that I wrote below
+class FileData(object):
+
+    def __init__(self, mft_record):
+        self.mft_record = mft_record
+
+    def mft_record(self):
+        return self.mft_record
+
+class UnprocessedFileData(FileData):
+
+    def __init__(self, mft_record, file_data):
+        super(UnprocessedFileData, self).__init__(mft_record)
+        self.file_data = file_data
+
+class ProcessedFileData(FileData):
+
+    def __init__(self, mft_record, file_hash, file_signature):
+        super(ProcessedFileData, self).__init__(mft_record)
+        self.file_hash = file_hash
+        self.file_signature = file_signature
+
+def processFileFromQueue():
+
+    while True:
+        unprocessedFile = unprocessedFileQueue.get()
+
+        filename = unprocessedFile.mft_record.filename_information().filename()
+        print("Processing File: {}".format(filename))
+
+        # hash only the logical file size
+        filesize = unprocessedFile.mft_record.data_attribute().data_size()
+        md5hash = hashlib.md5(unprocessedFile.file_data[0:filesize])
+
+        fileSiganture = ""
+        # checking signatures
+        for signature in file_signatures:
+            signature_length = len(signature[1])
+            file_bytes_to_check = unprocessedFile.file_data[0:signature_length]
+
+            # signature_as_string = base64.encode(signature[1])
+
+            if (file_bytes_to_check == signature[1]):
+                # we have a signature match
+                fileSiganture = signature[0]
+                break
+
+        processedFileQueue.put(ProcessedFileData(unprocessedFile.mft_record,md5hash,fileSiganture))
+
+
+        unprocessedFileQueue.task_done()
+
+def writeCaseOutput():
+
+    while True:
+
+        processedFile = processedFileQueue.get()
+        case_file = case_output.create_uco_object('Trace')
+        case_file_property = case_file.create_property_bundle(
+            'File',
+            fileName=processedFile.mft_record.filename_information().filename()
+        )
+        processedFileQueue.task_done()
 
 def parseMFTForFiles(mftpath):
 
@@ -73,7 +150,6 @@ def printClusterMap(cluster_map):
         print("Cluster: {}\tLength: {}\tOffset: {}\tFile: {}\tLast Cluster: {}".format(cluster, length, offset, filename, last_cluster))
 
 
-
 def parseMBRforVBRLocation(mbr):
     #grab the first partition entry, and return the starting sector
     return struct.unpack("<I", mbr[454:458])[0]
@@ -130,11 +206,16 @@ def main():
     parser.add_argument('mft_path', action="store", help="Source MFT path")
     arg_results = parser.parse_args()
 
-    #instantiating the file signatures list
-    file_signatures = []
+    #instantiating our file processing threads
+    for i in range (num_processing_threads):
+        t = Thread(target=processFileFromQueue)
+        t.daemon = True
+        t.start()
 
-    #instantiating the output document
-    case_output = case.Document()
+    #instantiating our Case output builder thread
+    t = Thread(target=writeCaseOutput)
+    t.daemon = True
+    t.start()
 
     #building datastructure for file signatures
     #right now, it will iterate through each signature and see if there is a match
@@ -203,10 +284,10 @@ def main():
             md5hash.update(block)
             dest.write(block)
 
-
             #if the $boot is done (unfragmented), then process it, otherwise, we'll move on to the main processing code
             if last_run:
-                processFile(mft_record,block, file_signatures, case_output)
+                #(mft_record,block, file_signatures, case_output)
+                unprocessedFileQueue.put(UnprocessedFileData(mft_record, block))
             else:
                 # we add the $boot to the file map
                 files[mft_record.mft_record_number] = block
@@ -226,12 +307,14 @@ def main():
 
                     #check to see if the file has any data already read
                     if mft_record_num not in files and last_run:
-                        processFile(mft_record,block, file_signatures, case_output)
+                        #processFile(mft_record,block, file_signatures, case_output)
+                        unprocessedFileQueue.put(UnprocessedFileData(mft_record, block))
                     elif mft_record_num in files and not last_run:
                         files[mft_record_num][offset:offset + cluster_run_length * bytes_per_cluster - 1] = block
                     elif mft_record_num in files and last_run:
                         files[mft_record_num] = bytearray(mft_record.filename_information().logical_size())
-                        processFile(mft_record, files[mft_record_num], file_signatures, case_output)
+                        #processFile(mft_record, files[mft_record_num], file_signatures, case_output)
+                        unprocessedFileQueue.put(UnprocessedFileData(mft_record, files[mft_record_num]))
 
 
                 #otherwise, read the cluster and move on
@@ -262,6 +345,10 @@ def main():
             print("Verification successful, hashes match")
         else:
             print ("Verification unsuccessful.")
+
+        unprocessedFileQueue.join()
+        processedFileQueue.join()
+        print ("All file processing complete")
 
         #writing the Case document output
         case_output.serialize(format='json-ld', destination='output.json')
