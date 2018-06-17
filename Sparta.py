@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+##Joseph Greenfield
+##jsgreenfield@my.uri.edu
+##
+
 import argparse
 import hashlib
 import time
@@ -50,6 +54,21 @@ class ProcessedFileData(FileData):
         self.file_hash = file_hash
         self.file_signature = file_signature
 
+class ClusterMapEntry(object):
+
+    def __init__(self, run_length, mft_record, file_offset, last_run):
+        self.run_length = run_length
+        self.mft_record = mft_record
+        self.file_offset = file_offset
+        self.last_run = last_run
+
+class FileSignatureEntry(object):
+
+    def __init__(self, fileDescription, fileSig, fileExt, fileCategory):
+        self.fileDescription = fileDescription
+        self.fileSig = fileSig
+        self.fileExt = fileExt
+        self.fileCategory = fileCategory
 
 def processFileFromQueue():
     while True:
@@ -119,16 +138,20 @@ def parseMFTForFiles(mftpath):
                         # print("Filename: {}".format(filename))
 
                         # The code in MFT.py actually gives the runlist as volume offsets
-                        count = 1
                         # This will keep track of where in the logical file the cluster run should be
                         file_offset = 0
+                        last_offset = 0
+
                         for (offset, length) in dataruns:
-                            if count != runlist._entries().__len__():
-                                cluster_map[offset] = [length, mft_record, file_offset, False]
-                                count += 1
-                                file_offset += length
-                            else:
-                                cluster_map[offset] = [length, mft_record, file_offset, True]
+                            cluster_map[offset] = ClusterMapEntry(length, mft_record,file_offset, False)
+                            file_offset += length
+                            if offset > last_offset:
+                                last_offset = offset
+                        cluster_map[last_offset].last_run = True
+
+                    #elif data_attrib and data_attrib.resident() > 0:
+                        #the data is resident to the MFT. Parse it
+
 
             except OverrunBufferException:
                 return
@@ -142,16 +165,11 @@ def parseMFTForFiles(mftpath):
 def printClusterMap(cluster_map):
     for cluster in cluster_map:
         cm_entry = cluster_map[cluster]
-        length = cm_entry[0]
-        mft_record = cm_entry[1]
-        offset = cm_entry[2]
-        last_cluster = cm_entry[3]
-        filename = mft_record.filename_information().filename()
-
         print(
-            "Cluster: {}\tLength: {}\tOffset: {}\tFile: {}\tLast Cluster: {}".format(cluster, length, offset, filename,
-                                                                                     last_cluster))
-
+            "Cluster: {}\tLength: {}\tOffset: {}\tFile: {}\tLast Cluster: {}".format(cluster, cm_entry.run_length,
+                                                                                     cm_entry.file_offset,
+                                                                                     cm_entry.mft_record.filename_information().filename(),
+                                                                                     cm_entry.last_run))
 
 def parseMBRforVBRLocation(mbr):
     # grab the first partition entry, and return the starting sector
@@ -186,7 +204,6 @@ def parseVBRforSectorsPerCluster(vbr):
 #     print("File: {}\tMD5 Hash: {}\tSignature: {}".format(filename, md5hash.hexdigest(),fileSiganture))
 #
 #     #adding the file to the output
-#     #TODO: Complete the Case Property Output
 #     case_file = case_output.create_uco_object('Trace')
 #     case_file_property = case_file.create_property_bundle(
 #         'File',
@@ -227,7 +244,7 @@ def main():
 
     action = case_output.create_uco_object(
         'ForensicAction',
-        startTime=datetime.datetime.now()
+        startTime=datetime.now()
     )
 
     # instantiating our file processing threads
@@ -294,47 +311,49 @@ def main():
             # $Boot is cluster number 0
             clusterNum = 0
             # lookup the entry in the cluster map
-            [cluster_run_length, mft_record, offset, last_run] = cluster_map[clusterNum]
+            map_entry = cluster_map[clusterNum]
             # update our cluster numbering to the next cluster after the full run
-            clusterNum += cluster_run_length
+            clusterNum += map_entry.run_length
             sectors_per_cluster = parseVBRforSectorsPerCluster(block)
             bytes_per_cluster = sectors_per_cluster * 512
             md5hash.update(block)
             dest.write(block)
 
             # we now have to read the rest of the $boot file
-            block += source.read(bytes_per_cluster * cluster_run_length - 512)
+            block += source.read(bytes_per_cluster * map_entry.run_length - 512)
             md5hash.update(block)
             dest.write(block)
 
             # if the $boot is done (unfragmented), then process it, otherwise, we'll move on to the main processing code
-            if last_run:
+            if map_entry.last_run:
                 # (mft_record,block, file_signatures, case_output)
-                unprocessedFileQueue.put(UnprocessedFileData(mft_record, block))
+                unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
             else:
                 # we add the $boot to the file map
-                files[mft_record.mft_record_number] = block
+                files[map_entry.mft_record.mft_record_number] = block
 
             # we read the rest of the drive by cluster runs
             while block:
                 # if this cluster is assigned to a valid file
                 if clusterNum in cluster_map:
-                    [cluster_run_length, mft_record, offset, last_run] = cluster_map[clusterNum]
-                    mft_record_num = mft_record.mft_record_number()
+                    #[cluster_run_length, mft_record, offset, last_run] = cluster_map[clusterNum]
+                    map_entry = cluster_map[clusterNum]
+
+                    mft_record_num = map_entry.mft_record.mft_record_number()
                     # read in the entire cluster run
-                    block = source.read(bytes_per_cluster * cluster_run_length)
-                    clusterNum += cluster_run_length
+                    block = source.read(bytes_per_cluster * map_entry.run_length)
+                    clusterNum += map_entry.run_length
 
                     # check to see if the file has any data already read
-                    if mft_record_num not in files and last_run:
+                    if mft_record_num not in files and map_entry.last_run:
                         # processFile(mft_record,block, file_signatures, case_output)
-                        unprocessedFileQueue.put(UnprocessedFileData(mft_record, block))
-                    elif mft_record_num in files and not last_run:
-                        files[mft_record_num][offset:offset + cluster_run_length * bytes_per_cluster - 1] = block
-                    elif mft_record_num in files and last_run:
-                        files[mft_record_num] = bytearray(mft_record.filename_information().logical_size())
+                        unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
+                    elif mft_record_num in files and not map_entry.last_run:
+                        files[mft_record_num][map_entry.file_offset:map_entry.file_offset + map_entry.run_length * bytes_per_cluster - 1] = block
+                    elif mft_record_num in files and map_entry.last_run:
+                        files[mft_record_num] = bytearray(map_entry.mft_record.filename_information().logical_size())
                         # processFile(mft_record, files[mft_record_num], file_signatures, case_output)
-                        unprocessedFileQueue.put(UnprocessedFileData(mft_record, files[mft_record_num]))
+                        unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, files[mft_record_num]))
 
 
                 # otherwise, read the cluster and move on
