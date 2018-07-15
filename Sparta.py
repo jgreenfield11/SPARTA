@@ -8,15 +8,25 @@ import argparse
 import hashlib
 import time
 import datetime
+
 # for multi-threaded
 from Queue import Queue
 from threading import Thread
 
+#for CASE/UCO Output
 import case
 
+#To add the INDXParse library
+import sys
+sys.path.insert(0, "/home/joe/INDXParse")
+
+#INDXParse stuff
 from BinaryParser import Mmap
 from BinaryParser import OverrunBufferException
 from MFT import *
+
+#Progress Bar
+from progressbar import ProgressBar, Percentage, Bar, ETA, AdaptiveETA
 
 # setting up a global Queues for file processing
 num_processing_threads = 2
@@ -75,7 +85,7 @@ def processFileFromQueue():
         unprocessedFile = unprocessedFileQueue.get()
 
         filename = unprocessedFile.mft_record.filename_information().filename()
-        print("Processing File: {}".format(filename))
+        #print("Processing File: {}".format(filename))
 
         # hash only the logical file size
         filesize = unprocessedFile.mft_record.data_attribute().data_size()
@@ -107,7 +117,14 @@ def writeCaseOutput():
             'File',
             fileName=processedFile.mft_record.filename_information().filename()
         )
+
+        print ("Processed Filename: {}\tHash: {}\tSignature: {}".format(
+            processedFile.mft_record.filename_information().filename(),
+            processedFile.file_hash.hexdigest(),
+            processedFile.file_signature))
         processedFileQueue.task_done()
+
+        #Temporary Debugging
 
 
 def parseMFTForFiles(mftpath):
@@ -116,26 +133,34 @@ def parseMFTForFiles(mftpath):
     # the value will be a tuple [length of run, mft_record for run, logical offset within the file,
     # and a boolean as to whether it is the last run in the runlist
 
+    MFTProcessStart = datetime.now()
+    print ("Beginning processing MFT at {}".format(MFTProcessStart))
+    sys.stdout.flush()
+
     cluster_map = {}
     with Mmap(mftpath) as mftbuffer:
         enum = MFTEnumerator(mftbuffer)
         num_records = enum.len()
 
+        pbar = ProgressBar(widgets=[
+            "MFT Records Processed: ", Percentage(),
+            ' ', Bar(),
+            ' ', AdaptiveETA(),
+        ], maxval=num_records).start()
         for mft_id in range(0, num_records):
             try:
                 mft_record = enum.get_record(mft_id)
                 if not mft_record.is_directory() and mft_record.is_active():
                     # the record is a file and allocated
                     # building the clustermap
+
                     data_attrib = mft_record.data_attribute()
+                    filename_attrib = mft_record.filename_information()
                     # if the data is non-resident, then we care. Otherwise, the data is in the attribute
-                    if data_attrib and data_attrib.non_resident() > 0:
-                        filename_attrib = mft_record.filename_information()
-                        filename = filename_attrib.filename()
+                    if data_attrib and filename_attrib and data_attrib.non_resident() > 0:
+
                         runlist = mft_record.data_attribute().runlist()
                         dataruns = runlist.runs()
-
-                        # print("Filename: {}".format(filename))
 
                         # The code in MFT.py actually gives the runlist as volume offsets
                         # This will keep track of where in the logical file the cluster run should be
@@ -148,9 +173,7 @@ def parseMFTForFiles(mftpath):
                             if offset > last_offset:
                                 last_offset = offset
                         cluster_map[last_offset].last_run = True
-
-                    #elif data_attrib and data_attrib.resident() > 0:
-                        #the data is resident to the MFT. Parse it
+                pbar.update(mft_id + 1)
 
 
             except OverrunBufferException:
@@ -158,7 +181,10 @@ def parseMFTForFiles(mftpath):
             except InvalidRecordException:
                 mft_id += 1
                 continue
+        pbar.finish()
 
+    MFTProcessEnd = datetime.now()
+    print ("Complete Processing MFT. Time Taken: {}".format(MFTProcessEnd - MFTProcessStart))
     return cluster_map
 
 
@@ -178,6 +204,9 @@ def parseMBRforVBRLocation(mbr):
 
 def parseVBRforSectorsPerCluster(vbr):
     return struct.unpack("B", vbr[13:14])[0]
+
+def parseVBRforTotalSectors(vbr):
+    return struct.unpack("<Q", vbr[40:48])[0]
 
 
 ##This is the code for the non-threaded version
@@ -211,7 +240,7 @@ def parseVBRforSectorsPerCluster(vbr):
 #     )
 
 def main():
-    # checking input parameters
+    #checking input parameters
     if len(sys.argv) < 3:
         print ("Sparta <source> <destination> <MFT>")
     else:
@@ -292,17 +321,38 @@ def main():
         # starting timer
         start = time.time()
 
+        source_numbytes = 0
+        #determining number of bytes in the input drive
+        fd = os.open(arg_results.source, os.O_RDONLY)
+        try:
+            source_numbytes = os.lseek(fd, 0, os.SEEK_END)
+        finally:
+            os.close(fd)
+
+        source_numsectors = source_numbytes/512 + 1
+        pbar = ProgressBar(widgets=[
+            "Clusters Read: ", Percentage(),
+            ' ', Bar(),
+            ' ', AdaptiveETA(),
+        ], maxval=source_numsectors).start()
+
+        curr_sector = 0
+
         with open(arg_results.source, "rb") as source:
             # trying to read 512 byte blocks
             print ("Source file {} open for reading".format(sourcepath))
             # first block is MBR. Parse it.
             block = source.read(512)
+            curr_sector += 1
+            pbar.update(curr_sector)
             vbr_sector = parseMBRforVBRLocation(block)
             md5hash.update(block)
             dest.write(block)
 
             # Now reading/writing padding sectors until VBR
             block = source.read(vbr_sector * 512 - 512)
+            curr_sector = vbr_sector - 1
+            pbar.update(curr_sector)
             md5hash.update(block)
             dest.write(block)
 
@@ -310,17 +360,20 @@ def main():
             block = source.read(512)
             # $Boot is cluster number 0
             clusterNum = 0
+            curr_sector += 1
             # lookup the entry in the cluster map
             map_entry = cluster_map[clusterNum]
             # update our cluster numbering to the next cluster after the full run
             clusterNum += map_entry.run_length
             sectors_per_cluster = parseVBRforSectorsPerCluster(block)
             bytes_per_cluster = sectors_per_cluster * 512
+            #total_clusters = parseVBRforTotalSectors(block)/sectors_per_cluster
             md5hash.update(block)
             dest.write(block)
 
             # we now have to read the rest of the $boot file
             block += source.read(bytes_per_cluster * map_entry.run_length - 512)
+            curr_sector += (map_entry.run_length - 1) * sectors_per_cluster
             md5hash.update(block)
             dest.write(block)
 
@@ -332,6 +385,7 @@ def main():
                 # we add the $boot to the file map
                 files[map_entry.mft_record.mft_record_number] = block
 
+
             # we read the rest of the drive by cluster runs
             while block:
                 # if this cluster is assigned to a valid file
@@ -342,43 +396,69 @@ def main():
                     mft_record_num = map_entry.mft_record.mft_record_number()
                     # read in the entire cluster run
                     block = source.read(bytes_per_cluster * map_entry.run_length)
-                    clusterNum += map_entry.run_length
 
                     # check to see if the file has any data already read
+                    # non-fragmented files fall under this category
                     if mft_record_num not in files and map_entry.last_run:
-                        # processFile(mft_record,block, file_signatures, case_output)
                         unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
-                    elif mft_record_num in files and not map_entry.last_run:
-                        files[mft_record_num][map_entry.file_offset:map_entry.file_offset + map_entry.run_length * bytes_per_cluster - 1] = block
-                    elif mft_record_num in files and map_entry.last_run:
-                        files[mft_record_num] = bytearray(map_entry.mft_record.filename_information().logical_size())
-                        # processFile(mft_record, files[mft_record_num], file_signatures, case_output)
-                        unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, files[mft_record_num]))
+                    else:
+                        if mft_record_num not in files:
+                            files[mft_record_num] = bytearray(map_entry.mft_record.data_attribute().allocated_size())
+                        block_offset_start = map_entry.file_offset * bytes_per_cluster
+                        block_offset_end = map_entry.file_offset * bytes_per_cluster + map_entry.run_length * bytes_per_cluster
+                        files[mft_record_num][block_offset_start:block_offset_end] = block
 
+                        if map_entry.last_run:
+                            unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, files[mft_record_num]))
+
+                    curr_sector += (map_entry.run_length - 1) * sectors_per_cluster
+                    clusterNum += map_entry.run_length
+                    pbar.update(curr_sector)
 
                 # otherwise, read the cluster and move on
                 else:
                     block = source.read(bytes_per_cluster)
+                    curr_sector += sectors_per_cluster
                     clusterNum += 1
+                    pbar.update(curr_sector)
 
                 md5hash.update(block)
                 dest.write(block)
 
         end = time.time()
+        pbar.finish()
         dest.close()
         source.close()
         print ("Imaging complete. Time taken: {} seconds".format(end - start))
         print ("Source hash: {}".format(md5hash.hexdigest()))
         print ("Computing Destination Hash")
 
+
         destmd5hash = hashlib.md5()
+
+        dest_numbytes = 0
+
         with open(sys.argv[2], "rb") as dest:
             print ("Dest file {} open for computing hash".format(destpath))
+            dest_numsectors = os.path.getsize(sys.argv[2])/512 + 1
+            curr_sector = 0
+            pbar = ProgressBar(widgets=[
+                "Sectors Read: ", Percentage(),
+                ' ', Bar(),
+                ' ', AdaptiveETA(),
+            ], maxval=dest_numsectors).start()
             block = dest.read(512)
+            curr_sector += 1
+            pbar.update(curr_sector)
             destmd5hash.update(block)
             while block:
                 block = dest.read(512)
+                curr_sector += 1
                 destmd5hash.update(block)
+                pbar.update(curr_sector)
+            pbar.finish()
+        dest.close()
+
         print ("Verification complete. Destination hash: {}".format(destmd5hash.hexdigest()))
         if md5hash.hexdigest() == destmd5hash.hexdigest():
             print("Verification successful, hashes match")
