@@ -29,7 +29,7 @@ from MFT import *
 from progressbar import ProgressBar, Percentage, Bar, ETA, AdaptiveETA
 
 # setting up a global Queues for file processing
-num_processing_threads = 2
+num_processing_threads = 10
 unprocessedFileQueue = Queue()
 processedFileQueue = Queue()
 
@@ -112,16 +112,27 @@ def processFileFromQueue():
 def writeCaseOutput():
     while True:
         processedFile = processedFileQueue.get()
+        fn = processedFile.mft_record.filename_information()
+        si = processedFile.mft_record.standard_information()
+        data = processedFile.mft_record.data_attribute()
+
         case_file = case_output.create_uco_object('Trace')
         case_file_property = case_file.create_property_bundle(
             'File',
-            fileName=processedFile.mft_record.filename_information().filename()
+            fileName=fn.filename(),
+            extension=os.path.splitext(fn.filename()),
+            isDirectory=False,
+            createdTime=si.created_time(),
+            accessedTime=si.accessed_time(),
+            modifiedTime=si.modified_time(),
+            metadataChangeTime=si.changed_time(),
+            sizeInBytes=data.data_size()
         )
 
-        print ("Processed Filename: {}\tHash: {}\tSignature: {}".format(
-            processedFile.mft_record.filename_information().filename(),
-            processedFile.file_hash.hexdigest(),
-            processedFile.file_signature))
+        #print ("Processed Filename: {}\tHash: {}\tSignature: {}".format(
+        #     processedFile.mft_record.filename_information().filename(),
+        #     processedFile.file_hash.hexdigest(),
+        #     processedFile.file_signature))
         processedFileQueue.task_done()
 
         #Temporary Debugging
@@ -241,22 +252,31 @@ def parseVBRforTotalSectors(vbr):
 
 def main():
     #checking input parameters
-    if len(sys.argv) < 3:
-        print ("Sparta <source> <destination> <MFT>")
-    else:
-        print ("Sparta {} {} {}".format(sys.argv[1], sys.argv[2], sys.argv[3]))
-
-    sourcepath = sys.argv[1]
-    destpath = sys.argv[2]
-    mftpath = sys.argv[3]
+    # if len(sys.argv) < 3:
+    #     print ("Sparta <source> <destination> <MFT>")
+    # else:
+    #     print ("Sparta {} {} {}".format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]))
+    #
+    # # sourcepath = sys.argv[1]
+    # # destpath = sys.argv[2]
+    # # mftpath = sys.argv[3]
+    # # fileProcessing = sys.argv[4]
 
     parser = argparse.ArgumentParser(description='SPARTA: System for '
                                                  'Parallel Acquisitions with '
                                                  'Real-Time Analysis')
     parser.add_argument('source', action="store", help="Source Path (Device or DD Image")
     parser.add_argument('destination', action="store", help="Destination File Path")
+    parser.add_argument('metadata', action="store", help="Path for file metadata")
     parser.add_argument('mft_path', action="store", help="Source MFT path")
+    parser.add_argument('--file_processing', action='store_true', default=False, dest='file_processing')
     arg_results = parser.parse_args()
+
+    sourcepath = arg_results.source
+    destpath = arg_results.destination
+    mftpath = arg_results.mft_path
+    mpath = arg_results.metadata
+    file_processing = arg_results.file_processing
 
     # writing preliminary information for Case output
     instrument = case_output.create_uco_object(
@@ -268,12 +288,20 @@ def main():
     performer = case_output.create_uco_object('Identity')
     performer.create_property_bundle(
         'SimpleName',
-        givenName='John',
-        familyName='Doe')
+        givenName='Joe',
+        familyName='Greenfield'
+    )
 
     action = case_output.create_uco_object(
         'ForensicAction',
         startTime=datetime.now()
+    )
+    action.create_property_bundle(
+        'ActionReferences',
+        performer = performer,
+        instrument=instrument,
+        object=None,
+        result=[]
     )
 
     # instantiating our file processing threads
@@ -290,24 +318,25 @@ def main():
     # building datastructure for file signatures
     # right now, it will iterate through each signature and see if there is a match
     # this is a very inefficient way to do it, but we'll see if there is a significant impact on performance
-    with open("signatures_GCK.txt", "r") as signatures:
-        for line in signatures:
-            currline = line.split(",")
-            fileDescription = currline[0]
-            fileSig = currline[1].replace(" ", "")
-            fileExt = currline[4]
-            fileCategory = currline[5].strip('\n')
+    if file_processing == True:
+        with open("signatures_GCK.txt", "r") as signatures:
+            for line in signatures:
+                currline = line.split(",")
+                fileDescription = currline[0]
+                fileSig = currline[1].replace(" ", "")
+                fileExt = currline[4]
+                fileCategory = currline[5].strip('\n')
 
-            # fileSigBytes = fileSig.split(" ")
-            # trying to convert the string to a byte array
-            fileSigBytes = bytearray.fromhex(fileSig)
+                # fileSigBytes = fileSig.split(" ")
+                # trying to convert the string to a byte array
+                fileSigBytes = bytearray.fromhex(fileSig)
 
-            file_signatures.append((fileDescription, fileSigBytes, fileExt, fileCategory))
+                file_signatures.append((fileDescription, fileSigBytes, fileExt, fileCategory))
 
-    # reading MFT for processing
-    cluster_map = parseMFTForFiles(arg_results.mft_path)
+        # reading MFT for processing
+        cluster_map = parseMFTForFiles(arg_results.mft_path)
 
-    printClusterMap(cluster_map)
+    #printClusterMap(cluster_map)
 
     # we are building a dictionary of files that actually contain the binary data for each file
     # the key will be the MFT record number, the value will be the binary data
@@ -329,107 +358,128 @@ def main():
         finally:
             os.close(fd)
 
-        source_numsectors = source_numbytes/512 + 1
-        pbar = ProgressBar(widgets=[
-            "Clusters Read: ", Percentage(),
-            ' ', Bar(),
-            ' ', AdaptiveETA(),
-        ], maxval=source_numsectors).start()
-
         curr_sector = 0
 
         with open(arg_results.source, "rb") as source:
             # trying to read 512 byte blocks
             print ("Source file {} open for reading".format(sourcepath))
             # first block is MBR. Parse it.
-            block = source.read(512)
-            curr_sector += 1
-            pbar.update(curr_sector)
-            vbr_sector = parseMBRforVBRLocation(block)
-            md5hash.update(block)
-            dest.write(block)
 
-            # Now reading/writing padding sectors until VBR
-            block = source.read(vbr_sector * 512 - 512)
-            curr_sector = vbr_sector - 1
-            pbar.update(curr_sector)
-            md5hash.update(block)
-            dest.write(block)
+            if file_processing == False:
+                source_numsectors = source_numbytes / 512 + 1
+                pbar = ProgressBar(widgets=[
+                    "Sectors Read: ", Percentage(),
+                    ' ', Bar(),
+                    ' ', AdaptiveETA(),
+                ], maxval=source_numsectors).start()
 
-            # We should now be at the VBR. We should now be reading the VBR ($Boot)
-            block = source.read(512)
-            # $Boot is cluster number 0
-            clusterNum = 0
-            curr_sector += 1
-            # lookup the entry in the cluster map
-            map_entry = cluster_map[clusterNum]
-            # update our cluster numbering to the next cluster after the full run
-            clusterNum += map_entry.run_length
-            sectors_per_cluster = parseVBRforSectorsPerCluster(block)
-            bytes_per_cluster = sectors_per_cluster * 512
-            #total_clusters = parseVBRforTotalSectors(block)/sectors_per_cluster
-            md5hash.update(block)
-            dest.write(block)
+                curr_sector = 0
+                block = source.read(512)
 
-            # we now have to read the rest of the $boot file
-            block += source.read(bytes_per_cluster * map_entry.run_length - 512)
-            curr_sector += (map_entry.run_length - 1) * sectors_per_cluster
-            md5hash.update(block)
-            dest.write(block)
+                while block:
+                    curr_sector += 1
+                    pbar.update(curr_sector)
+                    md5hash.update(block)
+                    dest.write(block)
+                    block = source.read(512)
 
-            # if the $boot is done (unfragmented), then process it, otherwise, we'll move on to the main processing code
-            if map_entry.last_run:
-                # (mft_record,block, file_signatures, case_output)
-                unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
             else:
-                # we add the $boot to the file map
-                files[map_entry.mft_record.mft_record_number] = block
+                source_numsectors = source_numbytes / 512 + 1
+                pbar = ProgressBar(widgets=[
+                    "Clusters Read: ", Percentage(),
+                    ' ', Bar(),
+                    ' ', AdaptiveETA(),
+                ], maxval=source_numsectors).start()
 
-
-            # we read the rest of the drive by cluster runs
-            while block:
-                # if this cluster is assigned to a valid file
-                if clusterNum in cluster_map:
-                    #[cluster_run_length, mft_record, offset, last_run] = cluster_map[clusterNum]
-                    map_entry = cluster_map[clusterNum]
-
-                    mft_record_num = map_entry.mft_record.mft_record_number()
-                    # read in the entire cluster run
-                    block = source.read(bytes_per_cluster * map_entry.run_length)
-
-                    # check to see if the file has any data already read
-                    # non-fragmented files fall under this category
-                    if mft_record_num not in files and map_entry.last_run:
-                        unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
-                    else:
-                        if mft_record_num not in files:
-                            files[mft_record_num] = bytearray(map_entry.mft_record.data_attribute().allocated_size())
-                        block_offset_start = map_entry.file_offset * bytes_per_cluster
-                        block_offset_end = map_entry.file_offset * bytes_per_cluster + map_entry.run_length * bytes_per_cluster
-                        files[mft_record_num][block_offset_start:block_offset_end] = block
-
-                        if map_entry.last_run:
-                            unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, files[mft_record_num]))
-
-                    curr_sector += (map_entry.run_length - 1) * sectors_per_cluster
-                    clusterNum += map_entry.run_length
-                    pbar.update(curr_sector)
-
-                # otherwise, read the cluster and move on
-                else:
-                    block = source.read(bytes_per_cluster)
-                    curr_sector += sectors_per_cluster
-                    clusterNum += 1
-                    pbar.update(curr_sector)
-
+                block = source.read(512)
+                curr_sector += 1
+                pbar.update(curr_sector)
+                vbr_sector = parseMBRforVBRLocation(block)
                 md5hash.update(block)
                 dest.write(block)
 
-        end = time.time()
+                # Now reading/writing padding sectors until VBR
+                block = source.read(vbr_sector * 512 - 512)
+                curr_sector = vbr_sector - 1
+                pbar.update(curr_sector)
+                md5hash.update(block)
+                dest.write(block)
+
+                # We should now be at the VBR. We should now be reading the VBR ($Boot)
+                block = source.read(512)
+                # $Boot is cluster number 0
+                clusterNum = 0
+                curr_sector += 1
+                # lookup the entry in the cluster map
+                map_entry = cluster_map[clusterNum]
+                # update our cluster numbering to the next cluster after the full run
+                clusterNum += map_entry.run_length
+                sectors_per_cluster = parseVBRforSectorsPerCluster(block)
+                bytes_per_cluster = sectors_per_cluster * 512
+                #total_clusters = parseVBRforTotalSectors(block)/sectors_per_cluster
+                #md5hash.update(block)
+                #dest.write(block)
+
+                # we now have to read the rest of the $boot file
+                block += source.read(bytes_per_cluster * map_entry.run_length - 512)
+                curr_sector += (map_entry.run_length - 1) * sectors_per_cluster
+                md5hash.update(block)
+                dest.write(block)
+
+                # if the $boot is done (unfragmented), then process it, otherwise, we'll move on to the main processing code
+                if map_entry.last_run:
+                    # (mft_record,block, file_signatures, case_output)
+                    unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
+                else:
+                    # we add the $boot to the file map
+                    files[map_entry.mft_record.mft_record_number] = block
+
+
+                # we read the rest of the drive by cluster runs
+                while block:
+                    # if this cluster is assigned to a valid file
+                    if clusterNum in cluster_map:
+                        #[cluster_run_length, mft_record, offset, last_run] = cluster_map[clusterNum]
+                        map_entry = cluster_map[clusterNum]
+
+                        mft_record_num = map_entry.mft_record.mft_record_number()
+                        # read in the entire cluster run
+                        block = source.read(bytes_per_cluster * map_entry.run_length)
+
+                        # check to see if the file has any data already read
+                        # non-fragmented files fall under this category
+                        if mft_record_num not in files and map_entry.last_run:
+                            unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, block))
+                        else:
+                            if mft_record_num not in files:
+                                files[mft_record_num] = bytearray(map_entry.mft_record.data_attribute().allocated_size())
+                            block_offset_start = map_entry.file_offset * bytes_per_cluster
+                            block_offset_end = map_entry.file_offset * bytes_per_cluster + map_entry.run_length * bytes_per_cluster
+                            files[mft_record_num][block_offset_start:block_offset_end] = block
+
+                            if map_entry.last_run:
+                                unprocessedFileQueue.put(UnprocessedFileData(map_entry.mft_record, files[mft_record_num]))
+
+                        curr_sector += (map_entry.run_length - 1) * sectors_per_cluster
+                        clusterNum += map_entry.run_length
+                        pbar.update(curr_sector)
+
+                    # otherwise, read the cluster and move on
+                    else:
+                        block = source.read(bytes_per_cluster)
+                        curr_sector += sectors_per_cluster
+                        clusterNum += 1
+                        pbar.update(curr_sector)
+
+                    md5hash.update(block)
+                    dest.write(block)
+        imaging_end = time.time()
         pbar.finish()
         dest.close()
         source.close()
-        print ("Imaging complete. Time taken: {} seconds".format(end - start))
+        print ("Imaging complete. Time taken: {} seconds".format(imaging_end - start))
+        print ("Items remaining in unprocessed queue: {}".format(unprocessedFileQueue.qsize()))
+        print ("Items remaining in processed queue for CASE output: {}".format(processedFileQueue.qsize()))
         print ("Source hash: {}".format(md5hash.hexdigest()))
         print ("Computing Destination Hash")
 
@@ -447,12 +497,12 @@ def main():
                 ' ', Bar(),
                 ' ', AdaptiveETA(),
             ], maxval=dest_numsectors).start()
-            block = dest.read(512)
+            block = dest.read(4096)
             curr_sector += 1
             pbar.update(curr_sector)
             destmd5hash.update(block)
             while block:
-                block = dest.read(512)
+                block = dest.read(4096)
                 curr_sector += 1
                 destmd5hash.update(block)
                 pbar.update(curr_sector)
@@ -465,12 +515,17 @@ def main():
         else:
             print ("Verification unsuccessful.")
 
+        print ("Items remaining in unprocessed queue: {}".format(unprocessedFileQueue.qsize()))
+        print ("Items remaining in processed queue for CASE output: {}".format(processedFileQueue.qsize()))
         unprocessedFileQueue.join()
         processedFileQueue.join()
         print ("All file processing complete")
 
         # writing the Case document output
-        case_output.serialize(format='json-ld', destination='output.json')
+
+        case_output.serialize(format='json-ld', destination=mpath)
+
+        print ("SPARTA complete. Total time taken: {} seconds".format(time.time() - start))
 
 
 if __name__ == "__main__":
