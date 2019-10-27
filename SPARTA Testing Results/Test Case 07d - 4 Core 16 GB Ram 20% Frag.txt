@@ -1,0 +1,132 @@
+joe@SPARTA:~/PycharmProjects/SPARTA$ /usr/bin/time -v sudo python Sparta.py /dev/sda /media/joe/SPARTA_Dest/Sparta20Frag.dd /media/joe/SPARTA_Dest/Sparta20FragCASE.json MFTs/Frag20MFT.raw --file_processing
+Beginning processing MFT at 2019-03-03 20:53:06.039787
+MFT Records Processed: 100% |###################################| Time:  0:08:21
+Complete Processing MFT. Time Taken: 0:08:21.041883
+Destination file /media/joe/SPARTA_Dest/Sparta20Frag.dd open for writing
+Source file /dev/sda open for reading
+Clusters Read: 100% |###########################################| Time:  2:06:51
+Imaging complete. Time taken: 7611.53541589 seconds
+Items remaining in unprocessed queue: 0
+Items remaining in processed queue for CASE output: 0
+Source hash: 95e0e075797ac126a14a175fb6e92f49
+Computing Destination Hash
+Dest file /media/joe/SPARTA_Dest/Sparta20Frag.dd open for computing hash
+Sectors Read: 100% |############################################| Time:  0:50:07
+Verification complete. Destination hash: 95e0e075797ac126a14a175fb6e92f49
+Verification successful, hashes match
+Items remaining in unprocessed queue: 0
+Items remaining in processed queue for CASE output: 0
+All file processing complete
+SPARTA complete. Total time taken: 11061.4012918 seconds
+	Command being timed: "sudo python Sparta.py /dev/sda /media/joe/SPARTA_Dest/Sparta20Frag.dd /media/joe/SPARTA_Dest/Sparta20FragCASE.json MFTs/Frag20MFT.raw --file_processing"
+	User time (seconds): 4870.77
+	System time (seconds): 1039.66
+	Percent of CPU this job got: 50%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:15:54
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 15650420
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 13585870
+	Minor (reclaiming a frame) page faults: 72699794
+	Voluntary context switches: 205995098
+	Involuntary context switches: 485523
+	Swaps: 0
+	File system inputs: 1520846795
+	File system outputs: 626967592
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+-------------------
+joe@SPARTA:~/PycharmProjects/SPARTA$ /usr/bin/time -v sudo python Sparta.py /dev/sda /media/joe/SPARTA_Dest/Sparta20Frag.dd /media/joe/SPARTA_Dest/Sparta20FragCASE.json MFTs/Frag20MFT.raw --file_processing
+Beginning processing MFT at 2019-05-14 07:03:32.050810
+MFT Records Processed: 100% |###################################| Time:  0:08:13
+Complete Processing MFT. Time Taken: 0:08:13.966742
+Destination file /media/joe/SPARTA_Dest/Sparta20Frag.dd open for writing
+Source file /dev/sda open for reading
+Clusters Read: 100% |###########################################| Time:  2:13:51
+Imaging complete. Time taken: 8031.74725914 seconds
+Items remaining in unprocessed queue: 0
+Items remaining in processed queue for CASE output: 0
+Source hash: 95e0e075797ac126a14a175fb6e92f49
+Computing Destination Hash
+Dest file /media/joe/SPARTA_Dest/Sparta20Frag.dd open for computing hash
+Sectors Read: 100% |############################################| Time:  0:45:54
+Verification complete. Destination hash: 95e0e075797ac126a14a175fb6e92f49
+Verification successful, hashes match
+Items remaining in unprocessed queue: 0
+Items remaining in processed queue for CASE output: 0
+All file processing complete
+SPARTA complete. Total time taken: 11250.935411 seconds
+	Command being timed: "sudo python Sparta.py /dev/sda /media/joe/SPARTA_Dest/Sparta20Frag.dd /media/joe/SPARTA_Dest/Sparta20FragCASE.json MFTs/Frag20MFT.raw --file_processing"
+	User time (seconds): 4874.91
+	System time (seconds): 1042.97
+	Percent of CPU this job got: 49%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:18:36
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 15630736
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 13874379
+	Minor (reclaiming a frame) page faults: 73438426
+	Voluntary context switches: 206502984
+	Involuntary context switches: 466781
+	Swaps: 0
+	File system inputs: 1522571955
+	File system outputs: 626967592
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+---------------
+joe@SPARTA:~/PycharmProjects/SPARTA$ /usr/bin/time -v sudo python Sparta.py /dev/sda /media/joe/SPARTA_Dest/Sparta20Frag.dd /media/joe/SPARTA_Dest/Sparta20FragCASE.json MFTs/Frag20MFT.raw --file_processing
+Beginning processing MFT at 2019-05-15 06:57:30.268550
+MFT Records Processed: 100% |###################################| Time:  0:08:26
+Complete Processing MFT. Time Taken: 0:08:26.249900
+Destination file /media/joe/SPARTA_Dest/Sparta20Frag.dd open for writing
+Source file /dev/sda open for reading
+Clusters Read: 100% |###########################################| Time:  2:12:07
+Imaging complete. Time taken: 7927.29822898 seconds
+Items remaining in unprocessed queue: 0
+Items remaining in processed queue for CASE output: 0
+Source hash: 95e0e075797ac126a14a175fb6e92f49
+Computing Destination Hash
+Dest file /media/joe/SPARTA_Dest/Sparta20Frag.dd open for computing hash
+Sectors Read: 100% |############################################| Time:  0:46:34
+Verification complete. Destination hash: 95e0e075797ac126a14a175fb6e92f49
+Verification successful, hashes match
+Items remaining in unprocessed queue: 0
+Items remaining in processed queue for CASE output: 0
+All file processing complete
+SPARTA complete. Total time taken: 11160.6958158 seconds
+	Command being timed: "sudo python Sparta.py /dev/sda /media/joe/SPARTA_Dest/Sparta20Frag.dd /media/joe/SPARTA_Dest/Sparta20FragCASE.json MFTs/Frag20MFT.raw --file_processing"
+	User time (seconds): 4872.12
+	System time (seconds): 1049.76
+	Percent of CPU this job got: 49%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:17:38
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 15612524
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 13636853
+	Minor (reclaiming a frame) page faults: 73246533
+	Voluntary context switches: 206171066
+	Involuntary context switches: 479582
+	Swaps: 0
+	File system inputs: 1521350771
+	File system outputs: 626967592
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
