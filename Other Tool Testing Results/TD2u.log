@@ -1,0 +1,67 @@
+
+----------------------------Start of TD2u Log Entry----------------------------
+
+Task: Disk Image
+Status: Ok
+Created: Thu Jun 20 13:52:23 2019
+Started: Thu Jun 20 13:52:23 2019
+Closed: Thu Jun 20 15:36:44 2019
+Examiner: Joseph Greenfield
+Case ID: <<not entered>>
+Case Notes: <<not entered>>
+
+Imager App: TD2u
+Imager Ver: 1.2.1 (build 5241-814712f)
+TD2u S/N: 000eccd2 00754020
+
+----------------------------------SATA Source----------------------------------
+
+Interface: SATA
+Model:  WDC WD3200AAKS-61L9A0
+Firmware Revision: 01.03E01
+Serial Number: WD-WCAV2J173032
+Capacity in Bytes: 320,072,933,376 (320.0 GB)
+Block Size: 512 bytes
+Block Count: 625,142,448
+    Power-ON Block Count: 625,142,448
+    HPA In Use: No
+    HPA Block Count: 625,142,448
+    DCO In Use: No
+    DCO Block Count: 625,142,448
+Encrypted: No
+
+----------------------------------SATA Dest 1----------------------------------
+
+Interface: SATA
+Model:  WDC WD5000AAKS-75V0A0
+Firmware Revision: 05.01D05
+Serial Number: WD-WCAWFA174593
+Capacity in Bytes: 500,107,862,016 (500.1 GB)
+Block Size: 512 bytes
+Block Count: 976,773,168
+    Power-ON Block Count: 976,773,168
+    HPA In Use: No
+    HPA Block Count: 976,773,168
+    DCO In Use: No
+    DCO Block Count: 976,773,168
+Encrypted: No
+
+------------------------------Disk Imaging Results------------------------------
+
+Output File Format: DD - raw binary data
+File Size in Bytes: 2,000,000,000 (2.0 GB)
+Files written: 161
+Filename of First File: SPARTA/SPARTA.001
+Total Errors: 0
+Acquisition MD5:   92ba9cf58f755ec346eef3806771c96c
+Acquisition SHA-1: 84ef8b1962c3aae4b8fce032f9a4627f6f4b8086
+
+-------------------------Readback Verification Results-------------------------
+
+Destination: WD-WCAWFA174593
+    Verification MD5:   92ba9cf58f755ec346eef3806771c96c
+    Verification SHA-1: 84ef8b1962c3aae4b8fce032f9a4627f6f4b8086
+Status: Verified
+
+-----------------------------End of TD2u Log Entry-----------------------------
+

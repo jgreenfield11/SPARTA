@@ -1,0 +1,19 @@
+0% Frag
+
+[Sparta0Frag.dd], Partition 1: The volume snapshot now comprises 475,870 files (475,870 before, i. e. +0). Processing time: 1:03:40 h
+
+5% Frag
+
+[Sparta5Frag.dd], Partition 1: The volume snapshot now comprises 475,871 files (475,871 before, i. e. +0). Processing time: 1:28:51 h
+
+10% Frag
+
+[Sparta10Frag.dd], Partition 1: The volume snapshot now comprises 475,878 files (475,878 before, i. e. +0). Processing time: 2:10:34 h
+
+20% Frag
+
+[Sparta20Frag.dd], Partition 1: The volume snapshot now comprises 475,871 files (475,871 before, i. e. +0). Processing time: 2:39:35 h
+
+50% Frag
+
+[Sparta50Frag.dd], Partition 1: The volume snapshot now comprises 475,870 files (475,870 before, i. e. +0). Processing time: 1:50:40 h

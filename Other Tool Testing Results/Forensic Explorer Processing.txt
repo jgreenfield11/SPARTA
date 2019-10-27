@@ -1,0 +1,258 @@
+0% Frag
+
+Signature Analysis
+25 Jun 2019 07:35:53.290 - --------------------------------------------------------------------------------
+25 Jun 2019 07:35:53.290 - Case Name:     SPARTA_Test
+25 Jun 2019 07:35:53.290 - Date Run:      6/25/2019 7:35:53 AM
+25 Jun 2019 07:35:53.290 - FEX Version:   v4.3.5(7660)
+25 Jun 2019 07:35:53.290 - --------------------------------------------------------------------------------
+25 Jun 2019 07:35:53.290 - Drivers: MS-SQL, Kaydara FBX, MapSource1, LightWave Scene, Cakewalk, Eps, InterWeb Reports, MapSource2, HotDocs, Lotus Notes, EFax, Logic Audio, SmartDraw, GUE, PaperPort, Xara, Retrospect Backup, MUS File, FormZ, QuarkXPress, SureThing CD Labeler, Flac, AIFF, iTunes, RW2, RealMedia, Fudemane, Bmp, Tiff, Mov, MIDI, Olympus Raw, Miliki Compression, CoolPage, Sibelius, INDD, Fruity Loops, ASF-WMV-WMA, X3F, Portable Graphics Map, Final Draft, ThumbCache, OLE, Works WKS, Yahoo, Reason, NASCAR Racing, Casio Disk Title, Final Fantasy 7, Diablo2 Save, Android Backup, Lotus 123, TAR, UMV, VI, Fuji Raw, Filemaker, Rar, Zip, TaxACT, LightWave Object, ShapeFile, Digital Voice File, WP6-10, Ogg, FamilySearch, SWF Flash, SWF Flash Video, DGN v7, EXE/DLL, AutoCAD DWG, Freehand 7 to 9, Swish, MAYA, ELF, HD Photo, RPM, OneNote, LZH, QuickCAD, Freehand 10, HELP, WordPro, Cab, Outlook Express, Outlook Address, PAB, 7zip, OST, Paintbrush, Interbase GBK, WMF, PST, MicroSim Layout, CanTax2, DBase-FoxPro, CanTax1, MS-Money, MYOB, Caff, GZIP, MKV, Internet Favorite, BZip2, Quicken, Lacerte, MS-SQL Log, TaxCut, Quickbooks, Lacerte Individual, SPSS, Ancestry, Quickbooks Backup, QuickTax, TurboTax, Digital Speech, Adaptive MultiRate Audio, EMF, EndNote 9, MS Backup, JetVoice, SQLite, SKF, NK2, Interbase, FOX, JBig2, DS_Store, WOFF, Cine, DICOM, Chrome Cache Data, Chrome Cache Index, DSL, 3DS, Apple System Log, Dynamic Dictionary, Fudeou Greeting Card, JPEG 2000, Photoshop, Gif, JPG, Canon Raw, PaintShop Pro, PNG, Registry, Omnis, Torrent, VSS Store, VSS Store Information, LNK, Extensible Storage Engine, Internet Explorer v4-9 History, SAS Binary, Access, MBDB, VSS Volume Header, VSS Catalog, Prefetch, WTV, Safari Cookie, Event Log (XML), Event Log, Print Spool Shadow, SummaryInformation, Print Spool, HEIF, 3GP, PDF, TrueType, MS Write, Adobe Premier, HPGL, Mpeg, AVCHD, AutoCad DXF, RIFF, RTF, Plist (Binary), XML, HTML, exFAT, HFS+ Volume, FAT, NTFS, MP3, Icon, 
+25 Jun 2019 07:35:53.290 - Force determination: 0 
+25 Jun 2019 07:35:53.290 - New Columns inserted at position: 3
+25 Jun 2019 07:35:55.611 - Processing 509993 items (298.09 GB) across 6 cores. 
+25 Jun 2019 07:56:02.880 - 3956 - Queue Complete
+25 Jun 2019 07:56:02.884 - 13860 - Queue Complete
+25 Jun 2019 07:56:02.884 - 10792 - Queue Complete
+25 Jun 2019 07:56:02.886 - 15032 - Queue Complete
+25 Jun 2019 07:56:03.537 - 7616 - Queue Complete
+25 Jun 2019 07:56:03.563 - 12712 - Queue Complete
+25 Jun 2019 07:56:03.565 - Command Task FINISHED
+25 Jun 2019 07:56:03.565 - Time Taken: 00:20:10
+25 Jun 2019 07:56:03.565 -  
+
+Hash Analysis
+25 Jun 2019 07:56:03.624 - --------------------------------------------------------------------------------
+25 Jun 2019 07:56:03.624 - Case Name:     SPARTA_Test
+25 Jun 2019 07:56:03.624 - Date Run:      6/25/2019 7:56:03 AM
+25 Jun 2019 07:56:03.624 - FEX Version:   v4.3.5(7660)
+25 Jun 2019 07:56:03.624 - --------------------------------------------------------------------------------
+25 Jun 2019 07:56:03.624 - CRC32: False
+25 Jun 2019 07:56:03.624 - MD5: True
+25 Jun 2019 07:56:03.624 - SHA1: False
+25 Jun 2019 07:56:03.624 - SHA256: False
+25 Jun 2019 07:56:03.624 - Fuzzy: False
+25 Jun 2019 07:56:03.624 - Differential: False
+25 Jun 2019 07:56:03.624 - PhotoDNA: False
+25 Jun 2019 07:56:03.624 - Forcing a redo of calculations: False
+25 Jun 2019 07:56:03.624 - Find duplicates: False
+25 Jun 2019 07:56:03.624 - Minimum Size: 0 Mbytes
+25 Jun 2019 07:56:03.624 - Maximum Size: 1024 Mbytes
+25 Jun 2019 07:56:03.624 - New Columns inserted at position: 3
+25 Jun 2019 07:56:05.030 - Processing 509993 items (298.09 GB) across 6 cores. 
+25 Jun 2019 08:58:39.233 - 7212 - Queue Complete
+25 Jun 2019 08:58:39.238 - 3348 - Queue Complete
+25 Jun 2019 08:58:39.305 - 1720 - Queue Complete
+25 Jun 2019 08:58:39.333 - 9640 - Queue Complete
+25 Jun 2019 08:58:39.447 - 3124 - Queue Complete
+25 Jun 2019 08:58:39.458 - 9948 - Queue Complete
+25 Jun 2019 08:58:39.459 - Command Task FINISHED
+25 Jun 2019 08:58:39.459 - Time Taken: 01:02:35
+25 Jun 2019 08:58:39.459 -  
+
+5% Frag
+
+Signature Analysis
+26 Jun 2019 17:50:35.278 - --------------------------------------------------------------------------------
+26 Jun 2019 17:50:35.278 - Case Name:     SPARTA_Test
+26 Jun 2019 17:50:35.278 - Date Run:      6/26/2019 5:50:35 PM
+26 Jun 2019 17:50:35.278 - FEX Version:   v4.3.5(7660)
+26 Jun 2019 17:50:35.278 - --------------------------------------------------------------------------------
+26 Jun 2019 17:50:35.278 - Drivers: MS-SQL, Kaydara FBX, MapSource1, LightWave Scene, Cakewalk, Eps, InterWeb Reports, MapSource2, HotDocs, Lotus Notes, EFax, Logic Audio, SmartDraw, GUE, PaperPort, Xara, Retrospect Backup, MUS File, FormZ, QuarkXPress, SureThing CD Labeler, Flac, AIFF, iTunes, RW2, RealMedia, Fudemane, Bmp, Tiff, Mov, MIDI, Olympus Raw, Miliki Compression, CoolPage, Sibelius, INDD, Fruity Loops, ASF-WMV-WMA, X3F, Portable Graphics Map, Final Draft, ThumbCache, OLE, Works WKS, Yahoo, Reason, NASCAR Racing, Casio Disk Title, Final Fantasy 7, Diablo2 Save, Android Backup, Lotus 123, TAR, UMV, VI, Fuji Raw, Filemaker, Rar, Zip, TaxACT, LightWave Object, ShapeFile, Digital Voice File, WP6-10, Ogg, FamilySearch, SWF Flash, SWF Flash Video, DGN v7, EXE/DLL, AutoCAD DWG, Freehand 7 to 9, Swish, MAYA, ELF, HD Photo, RPM, OneNote, LZH, QuickCAD, Freehand 10, HELP, WordPro, Cab, Outlook Express, Outlook Address, PAB, 7zip, OST, Paintbrush, Interbase GBK, WMF, Generic Email, PST, MicroSim Layout, CanTax2, DBase-FoxPro, CanTax1, MS-Money, MYOB, Caff, GZIP, MKV, Internet Favorite, BZip2, Quicken, Lacerte, MS-SQL Log, TaxCut, Quickbooks, Lacerte Individual, SPSS, Ancestry, Quickbooks Backup, QuickTax, TurboTax, Digital Speech, Adaptive MultiRate Audio, EMF, EndNote 9, MS Backup, JetVoice, SQLite, SKF, NK2, Interbase, FOX, JBig2, DS_Store, WOFF, Cine, DICOM, Chrome Cache Data, Chrome Cache Index, DSL, 3DS, Apple System Log, Dynamic Dictionary, Fudeou Greeting Card, JPEG 2000, Photoshop, Gif, JPG, Canon Raw, PaintShop Pro, PNG, Registry, Omnis, Torrent, VSS Store, VSS Store Information, LNK, Extensible Storage Engine, Internet Explorer v4-9 History, SAS Binary, Access, MBDB, VSS Volume Header, VSS Catalog, Prefetch, WTV, Safari Cookie, Event Log (XML), Event Log, Print Spool Shadow, SummaryInformation, Print Spool, HEIF, 3GP, PDF, TrueType, MS Write, Adobe Premier, HPGL, Mpeg, AVCHD, AutoCad DXF, RIFF, RTF, Plist (Binary), XML, HTML, SAS ASCII, Text UTF-8, Text UTF-16, MP3, Icon, JSON, Text, Text-Shift-JIS, 
+26 Jun 2019 17:50:35.278 - Force determination: 0 
+26 Jun 2019 17:50:35.278 - New Columns inserted at position: 3
+26 Jun 2019 17:50:37.939 - Processing 509996 items (298.09 GB) across 6 cores. 
+26 Jun 2019 18:28:27.011 - 2168 - Queue Complete
+26 Jun 2019 18:28:27.015 - 8900 - Queue Complete
+26 Jun 2019 18:28:27.015 - 13452 - Queue Complete
+26 Jun 2019 18:28:27.028 - 12968 - Queue Complete
+26 Jun 2019 18:28:27.716 - 17120 - Queue Complete
+26 Jun 2019 18:28:27.777 - 2184 - Queue Complete
+26 Jun 2019 18:28:27.779 - Command Task FINISHED
+26 Jun 2019 18:28:27.779 - Time Taken: 00:37:52
+26 Jun 2019 18:28:27.779 -  
+
+
+Hash Analysis
+26 Jun 2019 18:28:27.846 - --------------------------------------------------------------------------------
+26 Jun 2019 18:28:27.846 - Case Name:     SPARTA_Test
+26 Jun 2019 18:28:27.846 - Date Run:      6/26/2019 6:28:27 PM
+26 Jun 2019 18:28:27.846 - FEX Version:   v4.3.5(7660)
+26 Jun 2019 18:28:27.846 - --------------------------------------------------------------------------------
+26 Jun 2019 18:28:27.846 - CRC32: False
+26 Jun 2019 18:28:27.846 - MD5: True
+26 Jun 2019 18:28:27.846 - SHA1: False
+26 Jun 2019 18:28:27.846 - SHA256: False
+26 Jun 2019 18:28:27.846 - Fuzzy: False
+26 Jun 2019 18:28:27.846 - Differential: False
+26 Jun 2019 18:28:27.846 - PhotoDNA: False
+26 Jun 2019 18:28:27.846 - Forcing a redo of calculations: False
+26 Jun 2019 18:28:27.846 - Find duplicates: False
+26 Jun 2019 18:28:27.846 - Minimum Size: 0 Mbytes
+26 Jun 2019 18:28:27.846 - Maximum Size: 1024 Mbytes
+26 Jun 2019 18:28:27.846 - New Columns inserted at position: 3
+26 Jun 2019 18:28:29.407 - Processing 509996 items (298.09 GB) across 6 cores. 
+26 Jun 2019 19:54:18.042 - 16864 - Queue Complete
+26 Jun 2019 19:54:18.098 - 6272 - Queue Complete
+26 Jun 2019 19:54:18.107 - 11160 - Queue Complete
+26 Jun 2019 19:54:18.199 - 16984 - Queue Complete
+26 Jun 2019 19:54:18.246 - 14460 - Queue Complete
+26 Jun 2019 19:54:18.254 - 18280 - Queue Complete
+26 Jun 2019 19:54:18.255 - Command Task FINISHED
+26 Jun 2019 19:54:18.255 - Time Taken: 01:25:50
+26 Jun 2019 19:54:18.255 -  
+
+10% Frag
+
+Signature Analysis
+28 Jun 2019 21:17:19.050 - --------------------------------------------------------------------------------
+28 Jun 2019 21:17:19.050 - Case Name:     SPARTA_Test
+28 Jun 2019 21:17:19.050 - Date Run:      6/28/2019 9:17:19 PM
+28 Jun 2019 21:17:19.050 - FEX Version:   v4.3.5(7660)
+28 Jun 2019 21:17:19.050 - --------------------------------------------------------------------------------
+28 Jun 2019 21:17:19.050 - Drivers: MS-SQL, Kaydara FBX, MapSource1, LightWave Scene, Cakewalk, Eps, InterWeb Reports, MapSource2, HotDocs, Lotus Notes, EFax, Logic Audio, SmartDraw, GUE, PaperPort, Xara, Retrospect Backup, MUS File, FormZ, QuarkXPress, SureThing CD Labeler, Flac, AIFF, iTunes, RW2, RealMedia, Fudemane, Bmp, Tiff, Mov, MIDI, Olympus Raw, Miliki Compression, CoolPage, Sibelius, INDD, Fruity Loops, ASF-WMV-WMA, X3F, Portable Graphics Map, Final Draft, ThumbCache, OLE, Works WKS, Yahoo, Reason, NASCAR Racing, Casio Disk Title, Final Fantasy 7, Diablo2 Save, Android Backup, Lotus 123, TAR, UMV, VI, Fuji Raw, Filemaker, Rar, Zip, TaxACT, LightWave Object, ShapeFile, Digital Voice File, WP6-10, Ogg, FamilySearch, SWF Flash, SWF Flash Video, DGN v7, EXE/DLL, AutoCAD DWG, Freehand 7 to 9, Swish, MAYA, ELF, HD Photo, RPM, OneNote, LZH, QuickCAD, Freehand 10, HELP, WordPro, Cab, Outlook Express, Outlook Address, PAB, 7zip, OST, Paintbrush, Interbase GBK, WMF, Generic Email, PST, MicroSim Layout, CanTax2, DBase-FoxPro, CanTax1, MS-Money, MYOB, Caff, GZIP, MKV, Internet Favorite, BZip2, Quicken, Lacerte, MS-SQL Log, TaxCut, Quickbooks, Lacerte Individual, SPSS, Ancestry, Quickbooks Backup, QuickTax, TurboTax, Digital Speech, Adaptive MultiRate Audio, EMF, EndNote 9, MS Backup, JetVoice, SQLite, SKF, NK2, Interbase, FOX, JBig2, DS_Store, WOFF, Cine, DICOM, Chrome Cache Data, Chrome Cache Index, DSL, 3DS, Apple System Log, Dynamic Dictionary, Fudeou Greeting Card, JPEG 2000, Photoshop, Gif, JPG, Canon Raw, PaintShop Pro, PNG, Registry, Omnis, Torrent, VSS Store, VSS Store Information, LNK, Extensible Storage Engine, Internet Explorer v4-9 History, SAS Binary, Access, MBDB, VSS Volume Header, VSS Catalog, Prefetch, WTV, Safari Cookie, Event Log (XML), Event Log, Print Spool Shadow, SummaryInformation, Print Spool, HEIF, 3GP, PDF, TrueType, MS Write, Adobe Premier, HPGL, Mpeg, AVCHD, AutoCad DXF, RIFF, RTF, Plist (Binary), XML, HTML, SAS ASCII, Text UTF-8, Text UTF-16, MP3, Icon, JSON, Text, Text-Shift-JIS, 
+28 Jun 2019 21:17:19.050 - Force determination: 0 
+28 Jun 2019 21:17:19.050 - New Columns inserted at position: 3
+28 Jun 2019 21:17:21.829 - Processing 510004 items (298.09 GB) across 6 cores. 
+28 Jun 2019 21:59:50.417 - 18032 - Queue Complete
+28 Jun 2019 21:59:50.426 - 18028 - Queue Complete
+28 Jun 2019 21:59:50.447 - 18024 - Queue Complete
+28 Jun 2019 21:59:50.455 - 18040 - Queue Complete
+28 Jun 2019 21:59:50.561 - 18036 - Queue Complete
+28 Jun 2019 21:59:50.567 - 18020 - Queue Complete
+28 Jun 2019 21:59:50.569 - Command Task FINISHED
+28 Jun 2019 21:59:50.569 - Time Taken: 00:42:31
+28 Jun 2019 21:59:50.569 -  
+
+
+Hash Analysis
+28 Jun 2019 21:59:50.639 - --------------------------------------------------------------------------------
+28 Jun 2019 21:59:50.639 - Case Name:     SPARTA_Test
+28 Jun 2019 21:59:50.639 - Date Run:      6/28/2019 9:59:50 PM
+28 Jun 2019 21:59:50.639 - FEX Version:   v4.3.5(7660)
+28 Jun 2019 21:59:50.639 - --------------------------------------------------------------------------------
+28 Jun 2019 21:59:50.639 - CRC32: False
+28 Jun 2019 21:59:50.639 - MD5: True
+28 Jun 2019 21:59:50.639 - SHA1: False
+28 Jun 2019 21:59:50.639 - SHA256: False
+28 Jun 2019 21:59:50.639 - Fuzzy: False
+28 Jun 2019 21:59:50.639 - Differential: False
+28 Jun 2019 21:59:50.639 - PhotoDNA: False
+28 Jun 2019 21:59:50.639 - Forcing a redo of calculations: False
+28 Jun 2019 21:59:50.639 - Find duplicates: False
+28 Jun 2019 21:59:50.639 - Minimum Size: 0 Mbytes
+28 Jun 2019 21:59:50.639 - Maximum Size: 1024 Mbytes
+28 Jun 2019 21:59:50.639 - New Columns inserted at position: 3
+28 Jun 2019 21:59:52.500 - Processing 510004 items (298.09 GB) across 6 cores. 
+28 Jun 2019 23:45:08.463 - 9676 - Queue Complete
+28 Jun 2019 23:45:13.766 - 14712 - Queue Complete
+28 Jun 2019 23:45:23.802 - 1080 - Queue Complete
+28 Jun 2019 23:45:24.693 - 4400 - Queue Complete
+28 Jun 2019 23:45:34.527 - 11448 - Queue Complete
+28 Jun 2019 23:45:35.830 - 7960 - Queue Complete
+28 Jun 2019 23:45:35.831 - Command Task FINISHED
+28 Jun 2019 23:45:35.831 - Time Taken: 01:45:45
+28 Jun 2019 23:45:35.831 -  
+
+20% Frag
+
+Signature Analysis
+29 Jun 2019 14:20:42.055 - --------------------------------------------------------------------------------
+29 Jun 2019 14:20:42.055 - Case Name:     SPARTA_Test
+29 Jun 2019 14:20:42.055 - Date Run:      6/29/2019 2:20:42 PM
+29 Jun 2019 14:20:42.055 - FEX Version:   v4.3.5(7660)
+29 Jun 2019 14:20:42.055 - --------------------------------------------------------------------------------
+29 Jun 2019 14:20:42.056 - Drivers: MS-SQL, Kaydara FBX, MapSource1, LightWave Scene, Cakewalk, Eps, InterWeb Reports, MapSource2, HotDocs, Lotus Notes, EFax, Logic Audio, SmartDraw, GUE, PaperPort, Xara, Retrospect Backup, MUS File, FormZ, QuarkXPress, SureThing CD Labeler, Flac, AIFF, iTunes, RW2, RealMedia, Fudemane, Bmp, Tiff, Mov, MIDI, Olympus Raw, Miliki Compression, CoolPage, Sibelius, INDD, Fruity Loops, ASF-WMV-WMA, X3F, Portable Graphics Map, Final Draft, ThumbCache, OLE, Works WKS, Yahoo, Reason, NASCAR Racing, Casio Disk Title, Final Fantasy 7, Diablo2 Save, Android Backup, Lotus 123, TAR, UMV, VI, Fuji Raw, Filemaker, Rar, Zip, TaxACT, LightWave Object, ShapeFile, Digital Voice File, WP6-10, Ogg, FamilySearch, SWF Flash, SWF Flash Video, DGN v7, EXE/DLL, AutoCAD DWG, Freehand 7 to 9, Swish, MAYA, ELF, HD Photo, RPM, OneNote, LZH, QuickCAD, Freehand 10, HELP, WordPro, Cab, Outlook Express, Outlook Address, PAB, 7zip, OST, Paintbrush, Interbase GBK, WMF, Generic Email, PST, MicroSim Layout, CanTax2, DBase-FoxPro, CanTax1, MS-Money, MYOB, Caff, GZIP, MKV, Internet Favorite, BZip2, Quicken, Lacerte, MS-SQL Log, TaxCut, Quickbooks, Lacerte Individual, SPSS, Ancestry, Quickbooks Backup, QuickTax, TurboTax, Digital Speech, Adaptive MultiRate Audio, EMF, EndNote 9, MS Backup, JetVoice, SQLite, SKF, NK2, Interbase, FOX, JBig2, DS_Store, WOFF, Cine, DICOM, Chrome Cache Data, Chrome Cache Index, DSL, 3DS, Apple System Log, Dynamic Dictionary, Fudeou Greeting Card, JPEG 2000, Photoshop, Gif, JPG, Canon Raw, PaintShop Pro, PNG, Registry, Omnis, Torrent, VSS Store, VSS Store Information, LNK, Extensible Storage Engine, Internet Explorer v4-9 History, SAS Binary, Access, MBDB, VSS Volume Header, VSS Catalog, Prefetch, WTV, Safari Cookie, Event Log (XML), Event Log, Print Spool Shadow, SummaryInformation, Print Spool, HEIF, 3GP, PDF, TrueType, MS Write, Adobe Premier, HPGL, Mpeg, AVCHD, AutoCad DXF, RIFF, RTF, Plist (Binary), XML, HTML, SAS ASCII, Text UTF-8, Text UTF-16, MP3, Icon, JSON, Text, Text-Shift-JIS, 
+29 Jun 2019 14:20:42.056 - Force determination: 0 
+29 Jun 2019 14:20:42.056 - New Columns inserted at position: 3
+29 Jun 2019 14:20:44.761 - Processing 509996 items (298.09 GB) across 6 cores. 
+29 Jun 2019 15:08:18.787 - 17712 - Queue Complete
+29 Jun 2019 15:08:18.789 - 18136 - Queue Complete
+29 Jun 2019 15:08:18.791 - 18140 - Queue Complete
+29 Jun 2019 15:08:18.802 - 18028 - Queue Complete
+29 Jun 2019 15:08:19.104 - 8060 - Queue Complete
+29 Jun 2019 15:08:19.836 - 13196 - Queue Complete
+29 Jun 2019 15:08:19.841 - Command Task FINISHED
+29 Jun 2019 15:08:19.841 - Time Taken: 00:47:37
+29 Jun 2019 15:08:19.841 -  
+
+
+Hash Analysis
+29 Jun 2019 15:08:19.907 - --------------------------------------------------------------------------------
+29 Jun 2019 15:08:19.907 - Case Name:     SPARTA_Test
+29 Jun 2019 15:08:19.907 - Date Run:      6/29/2019 3:08:19 PM
+29 Jun 2019 15:08:19.907 - FEX Version:   v4.3.5(7660)
+29 Jun 2019 15:08:19.907 - --------------------------------------------------------------------------------
+29 Jun 2019 15:08:19.907 - CRC32: False
+29 Jun 2019 15:08:19.907 - MD5: True
+29 Jun 2019 15:08:19.907 - SHA1: False
+29 Jun 2019 15:08:19.907 - SHA256: False
+29 Jun 2019 15:08:19.907 - Fuzzy: False
+29 Jun 2019 15:08:19.907 - Differential: False
+29 Jun 2019 15:08:19.907 - PhotoDNA: False
+29 Jun 2019 15:08:19.907 - Forcing a redo of calculations: False
+29 Jun 2019 15:08:19.907 - Find duplicates: False
+29 Jun 2019 15:08:19.907 - Minimum Size: 0 Mbytes
+29 Jun 2019 15:08:19.907 - Maximum Size: 1024 Mbytes
+29 Jun 2019 15:08:19.907 - New Columns inserted at position: 3
+29 Jun 2019 15:08:21.830 - Processing 509996 items (298.09 GB) across 6 cores. 
+29 Jun 2019 17:08:24.266 - 14556 - Queue Complete
+29 Jun 2019 17:08:34.618 - 13236 - Queue Complete
+29 Jun 2019 17:08:42.460 - 17028 - Queue Complete
+29 Jun 2019 17:08:55.726 - 17820 - Queue Complete
+29 Jun 2019 17:10:29.763 - 17780 - Queue Complete
+29 Jun 2019 17:10:29.798 - 9648 - Queue Complete
+29 Jun 2019 17:10:29.799 - Command Task FINISHED
+29 Jun 2019 17:10:29.799 - Time Taken: 02:02:09
+29 Jun 2019 17:10:29.799 -  
+
+50% Frag
+
+Signature Analysis
+01 Jul 2019 20:26:18.912 - --------------------------------------------------------------------------------
+01 Jul 2019 20:26:18.912 - Case Name:     SPARTA_Test
+01 Jul 2019 20:26:18.912 - Date Run:      7/1/2019 8:26:18 PM
+01 Jul 2019 20:26:18.912 - FEX Version:   v4.3.5(7660)
+01 Jul 2019 20:26:18.912 - --------------------------------------------------------------------------------
+01 Jul 2019 20:26:18.912 - Drivers: MS-SQL, Kaydara FBX, MapSource1, LightWave Scene, Cakewalk, Eps, InterWeb Reports, MapSource2, HotDocs, Lotus Notes, EFax, Logic Audio, SmartDraw, GUE, PaperPort, Xara, Retrospect Backup, MUS File, FormZ, QuarkXPress, SureThing CD Labeler, Flac, AIFF, iTunes, RW2, RealMedia, Fudemane, Bmp, Tiff, Mov, MIDI, Olympus Raw, Miliki Compression, CoolPage, Sibelius, INDD, Fruity Loops, ASF-WMV-WMA, X3F, Portable Graphics Map, Final Draft, ThumbCache, OLE, Works WKS, Yahoo, Reason, NASCAR Racing, Casio Disk Title, Final Fantasy 7, Diablo2 Save, Android Backup, Lotus 123, TAR, UMV, VI, Fuji Raw, Filemaker, Rar, Zip, TaxACT, LightWave Object, ShapeFile, Digital Voice File, WP6-10, Ogg, FamilySearch, SWF Flash, SWF Flash Video, DGN v7, EXE/DLL, AutoCAD DWG, Freehand 7 to 9, Swish, MAYA, ELF, HD Photo, RPM, OneNote, LZH, QuickCAD, Freehand 10, HELP, WordPro, Cab, Outlook Express, Outlook Address, PAB, 7zip, OST, Paintbrush, Interbase GBK, WMF, Generic Email, PST, MicroSim Layout, CanTax2, DBase-FoxPro, CanTax1, MS-Money, MYOB, Caff, GZIP, MKV, Internet Favorite, BZip2, Quicken, Lacerte, MS-SQL Log, TaxCut, Quickbooks, Lacerte Individual, SPSS, Ancestry, Quickbooks Backup, QuickTax, TurboTax, Digital Speech, Adaptive MultiRate Audio, EMF, EndNote 9, MS Backup, JetVoice, SQLite, SKF, NK2, Interbase, FOX, JBig2, DS_Store, WOFF, Cine, DICOM, Chrome Cache Data, Chrome Cache Index, DSL, 3DS, Apple System Log, Dynamic Dictionary, Fudeou Greeting Card, JPEG 2000, Photoshop, Gif, JPG, Canon Raw, PaintShop Pro, PNG, Registry, Omnis, Torrent, VSS Store, VSS Store Information, LNK, Extensible Storage Engine, Internet Explorer v4-9 History, SAS Binary, Access, MBDB, VSS Volume Header, VSS Catalog, Prefetch, WTV, Safari Cookie, Event Log (XML), Event Log, Print Spool Shadow, SummaryInformation, Print Spool, HEIF, 3GP, PDF, TrueType, MS Write, Adobe Premier, HPGL, Mpeg, AVCHD, AutoCad DXF, RIFF, RTF, Plist (Binary), XML, HTML, SAS ASCII, Text UTF-8, Text UTF-16, MP3, Icon, JSON, Text, Text-Shift-JIS, 
+01 Jul 2019 20:26:18.912 - Force determination: 0 
+01 Jul 2019 20:26:18.912 - New Columns inserted at position: 3
+01 Jul 2019 20:26:21.372 - Processing 509997 items (298.09 GB) across 6 cores. 
+01 Jul 2019 21:05:25.268 - 3776 - Queue Complete
+01 Jul 2019 21:05:25.287 - 12104 - Queue Complete
+01 Jul 2019 21:05:25.287 - 7988 - Queue Complete
+01 Jul 2019 21:05:25.288 - 15348 - Queue Complete
+01 Jul 2019 21:05:25.302 - 17448 - Queue Complete
+01 Jul 2019 21:05:25.302 - 5748 - Queue Complete
+01 Jul 2019 21:05:25.304 - Command Task FINISHED
+01 Jul 2019 21:05:25.304 - Time Taken: 00:39:06
+01 Jul 2019 21:05:25.304 -  
+
+
+Hash Analysis
+01 Jul 2019 21:05:25.372 - --------------------------------------------------------------------------------
+01 Jul 2019 21:05:25.372 - Case Name:     SPARTA_Test
+01 Jul 2019 21:05:25.372 - Date Run:      7/1/2019 9:05:25 PM
+01 Jul 2019 21:05:25.373 - FEX Version:   v4.3.5(7660)
+01 Jul 2019 21:05:25.373 - --------------------------------------------------------------------------------
+01 Jul 2019 21:05:25.373 - CRC32: False
+01 Jul 2019 21:05:25.373 - MD5: True
+01 Jul 2019 21:05:25.373 - SHA1: False
+01 Jul 2019 21:05:25.373 - SHA256: False
+01 Jul 2019 21:05:25.373 - Fuzzy: False
+01 Jul 2019 21:05:25.373 - Differential: False
+01 Jul 2019 21:05:25.373 - PhotoDNA: False
+01 Jul 2019 21:05:25.373 - Forcing a redo of calculations: False
+01 Jul 2019 21:05:25.373 - Find duplicates: False
+01 Jul 2019 21:05:25.373 - Minimum Size: 0 Mbytes
+01 Jul 2019 21:05:25.373 - Maximum Size: 1024 Mbytes
+01 Jul 2019 21:05:25.373 - New Columns inserted at position: 3
+01 Jul 2019 21:05:26.965 - Processing 509997 items (298.09 GB) across 6 cores. 
+01 Jul 2019 23:43:49.938 - 12412 - Queue Complete
+01 Jul 2019 23:43:50.718 - 6600 - Queue Complete
+01 Jul 2019 23:43:50.813 - 12692 - Queue Complete
+01 Jul 2019 23:43:51.025 - 14656 - Queue Complete
+01 Jul 2019 23:43:51.127 - 2140 - Queue Complete
+01 Jul 2019 23:43:51.273 - 7960 - Queue Complete
+01 Jul 2019 23:43:51.274 - Command Task FINISHED
+01 Jul 2019 23:43:51.274 - Time Taken: 02:38:25
+01 Jul 2019 23:43:51.274 -  

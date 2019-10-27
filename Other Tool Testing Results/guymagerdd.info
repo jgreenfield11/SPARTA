@@ -1,0 +1,260 @@
+
+GUYMAGER ACQUISITION INFO FILE
+==============================
+
+Guymager
+========
+
+Version              : 0.8.7-1                                                                         
+Compilation timestamp: 2018-01-05-22.59.23                                                             
+Compiled with        : gcc 7.2.0                                                                       
+libewf version       : 20140608                                                                        
+libguytools version  : 2.0.5                                                                           
+Host name            : SPARTA                                                                          
+Domain name          : (none)                                                                          
+System               : Linux SPARTA 4.15.0-43-generic #46-Ubuntu SMP Thu Dec 6 14:45:28 UTC 2018 x86_64
+
+
+Device information
+==================
+Command executed: bash -c "search="`basename /dev/sda`: H..t P.......d A..a de.....d" && dmesg | grep -A3 "$search" || echo "No kernel HPA messages for /dev/sda""
+Information returned:
+----------------------------------------------------------------------------------------------------
+   No kernel HPA messages for /dev/sda
+
+Command executed: bash -c "smartctl -s on /dev/sda ; smartctl -a /dev/sda"
+Information returned:
+----------------------------------------------------------------------------------------------------
+   smartctl 6.6 2016-05-31 r4324 [x86_64-linux-4.15.0-43-generic] (local build)
+   Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+   
+   === START OF ENABLE/DISABLE COMMANDS SECTION ===
+   SMART Enabled.
+   
+   smartctl 6.6 2016-05-31 r4324 [x86_64-linux-4.15.0-43-generic] (local build)
+   Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+   
+   === START OF INFORMATION SECTION ===
+   Model Family:     Western Digital Caviar Blue (SATA)
+   Device Model:     WDC WD3200AAKS-61L9A0
+   Serial Number:    WD-WCAV2J173032
+   LU WWN Device Id: 5 0014ee 10275d270
+   Firmware Version: 01.03E01
+   User Capacity:    320,072,933,376 bytes [320 GB]
+   Sector Size:      512 bytes logical/physical
+   Device is:        In smartctl database [for details use: -P show]
+   ATA Version is:   ATA8-ACS (minor revision not indicated)
+   SATA Version is:  SATA 2.5, 3.0 Gb/s
+   Local Time is:    Thu Jun  6 07:06:51 2019 PDT
+   SMART support is: Available - device has SMART capability.
+   SMART support is: Enabled
+   
+   === START OF READ SMART DATA SECTION ===
+   SMART overall-health self-assessment test result: PASSED
+   
+   General SMART Values:
+   Offline data collection status:  (0x84)	Offline data collection activity
+   					was suspended by an interrupting command from host.
+   					Auto Offline Data Collection: Enabled.
+   Self-test execution status:      (   0)	The previous self-test routine completed
+   					without error or no self-test has ever 
+   					been run.
+   Total time to complete Offline 
+   data collection: 		( 5760) seconds.
+   Offline data collection
+   capabilities: 			 (0x7b) SMART execute Offline immediate.
+   					Auto Offline data collection on/off support.
+   					Suspend Offline collection upon new
+   					command.
+   					Offline surface scan supported.
+   					Self-test supported.
+   					Conveyance Self-test supported.
+   					Selective Self-test supported.
+   SMART capabilities:            (0x0003)	Saves SMART data before entering
+   					power-saving mode.
+   					Supports SMART auto save timer.
+   Error logging capability:        (0x01)	Error logging supported.
+   					General Purpose Logging supported.
+   Short self-test routine 
+   recommended polling time: 	 (   2) minutes.
+   Extended self-test routine
+   recommended polling time: 	 (  70) minutes.
+   Conveyance self-test routine
+   recommended polling time: 	 (   5) minutes.
+   SCT capabilities: 	       (0x3037)	SCT Status supported.
+   					SCT Feature Control supported.
+   					SCT Data Table supported.
+   
+   SMART Attributes Data Structure revision number: 16
+   Vendor Specific SMART Attributes with Thresholds:
+   ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE
+     1 Raw_Read_Error_Rate     0x002f   200   200   051    Pre-fail  Always       -       0
+     3 Spin_Up_Time            0x0027   148   138   021    Pre-fail  Always       -       3591
+     4 Start_Stop_Count        0x0032   100   100   000    Old_age   Always       -       698
+     5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       0
+     7 Seek_Error_Rate         0x002e   100   253   000    Old_age   Always       -       0
+     9 Power_On_Hours          0x0032   099   099   000    Old_age   Always       -       1370
+    10 Spin_Retry_Count        0x0032   100   100   000    Old_age   Always       -       0
+    11 Calibration_Retry_Count 0x0032   100   253   000    Old_age   Always       -       0
+    12 Power_Cycle_Count       0x0032   100   100   000    Old_age   Always       -       43
+   192 Power-Off_Retract_Count 0x0032   200   200   000    Old_age   Always       -       18
+   193 Load_Cycle_Count        0x0032   200   200   000    Old_age   Always       -       698
+   194 Temperature_Celsius     0x0022   098   093   000    Old_age   Always       -       45
+   196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       0
+   197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
+   198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       0
+   199 UDMA_CRC_Error_Count    0x0032   200   200   000    Old_age   Always       -       0
+   200 Multi_Zone_Error_Rate   0x0008   200   200   000    Old_age   Offline      -       0
+   
+   SMART Error Log Version: 1
+   No Errors Logged
+   
+   SMART Self-test log structure revision number 1
+   No self-tests have been logged.  [To run self-tests, use: smartctl -t]
+   
+   SMART Selective self-test log data structure revision number 1
+    SPAN  MIN_LBA  MAX_LBA  CURRENT_TEST_STATUS
+       1        0        0  Not_testing
+       2        0        0  Not_testing
+       3        0        0  Not_testing
+       4        0        0  Not_testing
+       5        0        0  Not_testing
+   Selective self-test flags (0x0):
+     After scanning selected spans, do NOT read-scan remainder of disk.
+   If Selective self-test is pending on power-up, resume after 0 minute delay.
+
+Command executed: bash -c "hdparm -I /dev/sda"
+Information returned:
+----------------------------------------------------------------------------------------------------
+   /dev/sda:
+   
+   ATA device, with non-removable media
+   	Model Number:       WDC WD3200AAKS-61L9A0                   
+   	Serial Number:      WD-WCAV2J173032
+   	Firmware Revision:  01.03E01
+   	Transport:          Serial, SATA 1.0a, SATA II Extensions, SATA Rev 2.5
+   Standards:
+   	Supported: 8 7 6 5 
+   	Likely used: 8
+   Configuration:
+   	Logical		max	current
+   	cylinders	16383	16383
+   	heads		16	16
+   	sectors/track	63	63
+   	--
+   	CHS current addressable sectors:    16514064
+   	LBA    user addressable sectors:   268435455
+   	LBA48  user addressable sectors:   625142448
+   	Logical/Physical Sector size:           512 bytes
+   	device size with M = 1024*1024:      305245 MBytes
+   	device size with M = 1000*1000:      320072 MBytes (320 GB)
+   	cache/buffer size  = 16384 KBytes
+   Capabilities:
+   	LBA, IORDY(can be disabled)
+   	Queue depth: 32
+   	Standby timer values: spec'd by Standard, with device specific minimum
+   	R/W multiple sector transfer: Max = 16	Current = 16
+   	Recommended acoustic management value: 128, current value: 128
+   	DMA: mdma0 mdma1 mdma2 udma0 udma1 udma2 udma3 udma4 udma5 *udma6 
+   	     Cycle time: min=120ns recommended=120ns
+   	PIO: pio0 pio1 pio2 pio3 pio4 
+   	     Cycle time: no flow control=120ns  IORDY flow control=120ns
+   Commands/features:
+   	Enabled	Supported:
+   	   *	SMART feature set
+   	    	Security Mode feature set
+   	   *	Power Management feature set
+   	   *	Write cache
+   	   *	Look-ahead
+   	   *	Host Protected Area feature set
+   	   *	WRITE_BUFFER command
+   	   *	READ_BUFFER command
+   	   *	NOP cmd
+   	   *	DOWNLOAD_MICROCODE
+   	    	Power-Up In Standby feature set
+   	   *	SET_FEATURES required to spinup after power up
+   	    	SET_MAX security extension
+   	   *	Automatic Acoustic Management feature set
+   	   *	48-bit Address feature set
+   	   *	Device Configuration Overlay feature set
+   	   *	Mandatory FLUSH_CACHE
+   	   *	FLUSH_CACHE_EXT
+   	   *	SMART error logging
+   	   *	SMART self-test
+   	    	Media Card Pass-Through
+   	   *	General Purpose Logging feature set
+   	   *	64-bit World wide name
+   	   *	URG for READ_STREAM[_DMA]_EXT
+   	   *	URG for WRITE_STREAM[_DMA]_EXT
+   	   *	Segmented DOWNLOAD_MICROCODE
+   	   *	Gen1 signaling speed (1.5Gb/s)
+   	   *	Gen2 signaling speed (3.0Gb/s)
+   	   *	Native Command Queueing (NCQ)
+   	   *	Host-initiated interface power management
+   	   *	Phy event counters
+   	   *	DMA Setup Auto-Activate optimization
+   	   *	Software settings preservation
+   	   *	SMART Command Transport (SCT) feature set
+   	   *	SCT Read/Write Long (AC1), obsolete
+   	   *	SCT Write Same (AC2)
+   	   *	SCT Features Control (AC4)
+   	   *	SCT Data Tables (AC5)
+   	    	unknown 206[12] (vendor specific)
+   	    	unknown 206[13] (vendor specific)
+   Security: 
+   	Master password revision code = 65534
+   		supported
+   	not	enabled
+   	not	locked
+   		frozen
+   	not	expired: security count
+   		supported: enhanced erase
+   	58min for SECURITY ERASE UNIT. 58min for ENHANCED SECURITY ERASE UNIT.
+   Logical Unit WWN Device Identifier: 50014ee10275d270
+   	NAA		: 5
+   	IEEE OUI	: 0014ee
+   	Unique ID	: 10275d270
+   Checksum: correct
+
+Hidden areas: HPA:No / DCO:Unknown
+
+
+Acquisition
+===========
+
+Linux device            : /dev/sda                                  
+Device size             : 320072933376 (320.1GB)                    
+Format                  : Linux dd raw image - file extension is .dd
+Image path and file name: /media/joe/SPARTA_Dest/guymagerdd.dd      
+Info  path and file name: /media/joe/SPARTA_Dest/guymagerdd.info    
+Hash calculation        : MD5 and SHA-1                             
+Source verification     : off                                       
+Image verification      : on                                        
+
+No bad sectors encountered during acquisition.
+State: Finished successfully
+
+MD5 hash                   : 92ba9cf58f755ec346eef3806771c96c        
+MD5 hash verified source   : --                                      
+MD5 hash verified image    : 92ba9cf58f755ec346eef3806771c96c        
+SHA1 hash                  : 84ef8b1962c3aae4b8fce032f9a4627f6f4b8086
+SHA1 hash verified source  : --                                      
+SHA1 hash verified image   : 84ef8b1962c3aae4b8fce032f9a4627f6f4b8086
+SHA256 hash                : --                                      
+SHA256 hash verified source: --                                      
+SHA256 hash verified image : --                                      
+Image verification OK. The image contains exactly the data that was written.
+
+Acquisition started : 2019-06-06 07:06:50 (ISO format YYYY-MM-DD HH:MM:SS)    
+Verification started: 2019-06-06 08:04:26                                     
+Ended               : 2019-06-06 08:50:07 (1 hours, 43 minutes and 16 seconds)
+Acquisition speed   : 88.35 MByte/s (0 hours, 57 minutes and 35 seconds)      
+Verification speed  : 111.40 MByte/s (0 hours, 45 minutes and 40 seconds)     
+
+
+Generated image files and their MD5 hashes
+==========================================
+
+No MD5 hashes available (configuration parameter CalcImageFileMD5 is off)
+MD5                               Image file
+n/a                               guymagerdd.dd

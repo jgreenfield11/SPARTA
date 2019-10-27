@@ -1,0 +1,51 @@
+0% Frag
+
+Status: Completed
+Start: 06/25/19 06:24:45AM
+Stop: 06/25/19 07:22:42AM
+Time: 0:57:57 
+Files: 490,730
+Files scanned: 490,664
+Signature mismatches: 11,933
+Hash values: 490,730
+
+5% Frag
+
+Status: Completed
+Start: 06/26/19 09:00:20AM
+Stop: 06/26/19 10:15:30AM
+Time: 1:15:00 
+Files: 490,734
+Files scanned: 490,666
+Signature mismatches: 11,933
+Hash values: 490,734
+
+10% Frag
+Status: Completed
+Start: 06/28/19 09:46:22AM
+Stop: 06/28/19 11:00:44AM
+Time: 1:14:00 
+Files: 490,739
+Files scanned: 490,666
+Signature mismatches: 11,930
+Hash values: 490,734
+
+20% Frag
+Status: Completed
+Start: 06/29/19 12:23:01PM
+Stop: 06/29/19 01:56:38PM
+Time: 1:33:00 
+Files: 490,734
+Files scanned: 490,666
+Signature mismatches: 11,933
+Hash values: 490,734
+
+50% Frag
+Status: Completed
+Start: 07/01/19 08:38:08AM
+Stop: 07/01/19 10:26:23AM
+Time: 1:48:00 
+Files: 490,732
+Files scanned: 490,666
+Signature mismatches: 11,933
+Hash values: 490,732

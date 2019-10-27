@@ -1,0 +1,72 @@
+
+-----------------------------Start of TX1 Log Entry-----------------------------
+
+Task: Disk Duplication
+Status: Ok
+Created: Tue Jun 18 10:00:22 2019 (UTC-0700)
+Started: Tue Jun 18 10:00:23 2019 (UTC-0700)
+Closed: Tue Jun 18 11:45:10 2019 (UTC-0700)
+Elapsed: 1 hour 45 min 
+Examiner: JG
+Case ID: 
+  **not entered**
+Case Notes: 
+  **not entered**
+
+Imager App: TX1
+Imager Ver: 2.1.1
+TX1 S/N: 000ecc5801a0a4
+
+------------------------------Source Disk-------------------------------
+
+Interface: SATA
+Port: SATA/SAS 1
+Model: WDC WD3200AAKS-61L9A0
+Firmware revision: 01.03E01
+Serial number: WD-WCAV2J173032
+Capacity in bytes: 320,072,933,376 (320.0 GB)
+Block Size: 512 bytes
+Block Count: 625,142,448
+    Power-ON Block Count: 625,142,448
+    HPA Block Count: 625,142,448
+    DCO Block Count: 625,142,448
+Tableau Encrypted: No
+Whole disk encryption detected: None detected
+Error granularity: 32,768 bytes
+
+--------------------------------Imaging---------------------------------
+
+Output file format: DD
+Chunk size in bytes: 0 (0 bytes)
+
+---------------------------Image Destination----------------------------
+
+Interface: SATA
+Port: SATA/SAS 2
+Model: WDC WD5000AAKS-75V0A0
+Firmware revision: 05.01D05
+Serial number: WD-WCAWFA174593
+Capacity in bytes: 500,107,862,016 (500.1 GB)
+Block Size: 512 bytes
+Block Count: 976,773,168
+    Power-ON Block Count: 976,773,168
+    HPA Block Count: 976,773,168
+    DCO Block Count: 976,773,168
+Tableau Encrypted: No
+Whole disk encryption detected: None detected
+Folder: /tx1_images/2019_06_18_10_00_22/
+File name base: image
+Verification Status: Finished OK
+    Verification Sha1: 84ef 8b19 62c3 aae4 b8fc e032 f9a4 627f 6f4b 8086
+    Verification Md5: 92ba 9cf5 8f75 5ec3 46ee f380 6771 c96c
+
+--------------------------Duplication Results---------------------------
+
+LBA Range Duplicated: Entire Source Disk
+Total recoverable errors: 0
+Total unrecoverable errors: 0
+Acquisition Sha1: 84ef 8b19 62c3 aae4 b8fc e032 f9a4 627f 6f4b 8086
+Acquisition Md5: 92ba 9cf5 8f75 5ec3 46ee f380 6771 c96c
+
+------------------------------End of TX1 Log Entry------------------------------
+

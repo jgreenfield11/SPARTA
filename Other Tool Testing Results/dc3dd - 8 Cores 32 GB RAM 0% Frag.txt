@@ -1,0 +1,48 @@
+joe@SPARTA:/media/joe/SPARTA_Dest$ /usr/bin/time -v sudo dc3dd if=/dev/sda hof=dc3dd_out.dd hash=md5 hash=sha1 log=dc3dd.log hlog=dc3ddhash.log 
+[sudo] password for joe: 
+
+dc3dd 7.2.646 started at 2019-06-05 07:27:19 -0700
+compiled options:
+command line: dc3dd if=/dev/sda hof=dc3dd_out.dd hash=md5 hash=sha1 log=dc3dd.log hlog=dc3ddhash.log
+device size: 625142448 sectors (probed),   320,072,933,376 bytes
+sector size: 512 bytes (probed)
+320072933376 bytes ( 298 G ) copied ( 100% ), 6205 s, 49 M/s                  
+320072933376 bytes ( 298 G ) hashed ( 100% ), 2745 s, 111 M/s                 
+
+input results for device `/dev/sda':
+   625142448 sectors in
+   0 bad sectors replaced by zeros
+   92ba9cf58f755ec346eef3806771c96c (md5)
+   84ef8b1962c3aae4b8fce032f9a4627f6f4b8086 (sha1)
+
+output results for file `dc3dd_out.dd':
+   625142448 sectors out
+   [ok] 92ba9cf58f755ec346eef3806771c96c (md5)
+   [ok] 84ef8b1962c3aae4b8fce032f9a4627f6f4b8086 (sha1)
+
+dc3dd completed at 2019-06-05 09:10:44 -0700
+
+	Command being timed: "sudo dc3dd if=/dev/sda hof=dc3dd_out.dd hash=md5 hash=sha1 log=dc3dd.log hlog=dc3ddhash.log"
+	User time (seconds): 3559.30
+	System time (seconds): 402.61
+	Percent of CPU this job got: 63%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:43:26
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 13028
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 6
+	Minor (reclaiming a frame) page faults: 3127
+	Voluntary context switches: 46463848
+	Involuntary context switches: 31028
+	Swaps: 0
+	File system inputs: 1250285320
+	File system outputs: 625142480
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
